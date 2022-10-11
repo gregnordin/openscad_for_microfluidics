@@ -73,7 +73,7 @@ Possibilities for circular arcs:
 - [Circular sector and arc](https://openhome.cc/eGossip/OpenSCAD/SectorArc.html) - more complicated.
 
 
-# 9/30/22 - 10/7/22
+# 9/30/22 - 10/11/22
 
 Try creating an arc with intersection of cubes rotated and moved along an arc. Led to idea to do something like this with flat plate-like shapes and hull() between them, which is compatible with the polychannel approach and would just need the shapes and positions of the shapes.
 
@@ -134,6 +134,7 @@ Try creating an arc with intersection of cubes rotated and moved along an arc. L
 - &#10060; Try to add an initial position to `arc_xz_rel_position` but failed--would have to completely re-do approach to how the function works.
 - &#9989; ~~Modify `abs_to_rel_positions2()` to keep the first position and make all of the others relative.~~
 - &#9989; Oops, I need to add r0 after doing a completely relative set of positions. **New function that in essence does a translate on a set of shape/pos from an arc function.** `set_first_position()` - success!
+- &#9989; Refactor `arcs_set_first_position.scad`.
 - &#10060; Re-do Dallin's interleaved 1D mixer to use circular arcs for the narrow interleaved channels and the narrow channels feeding into and out of the high aspect ratio mixer channel. &rarr; **ask Dallin to do it.**
 - Update `serpentine.scad` and `serpentine_circularends.scad`.
 
