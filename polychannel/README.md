@@ -14,7 +14,9 @@ To use the modules in the openscad files below, put the desired file(s) in the s
 	use <serpentine.scad>
 	use <serpentinecircularends.scad>
 
-Absolutely do not use `include <polychannel.scad>`, etc. The reason is that `use` only imports the modules and functions whereas `include` executes all of the code in the included file, which will pollute your openscad model because each of these files can be run on its own to demonstrate how to use its modules. **Examples for how to use the code are included in each openscad file. Just look at the code in the file, which is reasonably documented, and run the file to see what the example code does and how to use it.**
+Absolutely do not use `include <polychannel.scad>`, etc. The reason is that `use` only imports the modules and functions whereas `include` executes all of the code in the included file, which will pollute your openscad model because each of these files can be run on its own to demonstrate how to use its modules. 
+
+In addition to the examples below, check out the openscad files in `examples` for further examples of how to use the features in `polychannel.scad`.
 
 
 # `polychannel.scad`
