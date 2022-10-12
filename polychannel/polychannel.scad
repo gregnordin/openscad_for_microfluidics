@@ -11,6 +11,7 @@
 / Rev. 3, 10/4/22, by G. Nordin
 / Rev. 4, 10/5/22, by G. Nordin - Add uniformly_increase functions
 / Rev. 4.1, 10/7/22, by G. Nordin - Add rot_* functions
+/ Rev. 4.2, 10/12/2, by G. Nordin - Add cube_shape(), sphere_shape()
 --------------------------------------------------------------------------------------*/
 $fn=50;
 
@@ -75,6 +76,18 @@ module shape3D(shape, size, position, rotation, center=true) {
 /*---------------------------------------------------------------------------------------
 // Utility functions.
 --------------------------------------------------------------------------------------*/
+
+// Convenience functions to reduce verbosity of creating a shape-position data structure.
+// See examples/shorter_shape_pos_approach.scad.
+// To reduce verbosity even further you can define:
+// function cs(size, position, ang=[0, [0,0,1]]) = cube_shape(size, position, ang);
+// function ss(size, position, ang=[0, [0,0,1]]) = sphere_shape(size, position, ang);
+function cube_shape(size, position, ang=[0, [0,0,1]]) = [
+    "cube", size, position, ang
+];
+function sphere_shape(size, position, ang=[0, [0,0,1]]) = [
+    "sphr", size, position, ang
+];
 
 // Reverse the order of a list of parameters with relative positions.
 function reverse_order(p) = [
