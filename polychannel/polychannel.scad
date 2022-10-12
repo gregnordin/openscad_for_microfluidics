@@ -89,22 +89,6 @@ function sphere_shape(size, position, ang=[0, [0,0,1]]) = [
     "sphr", size, position, ang
 ];
 
-// Reverse the order of a list of parameters with relative positions.
-function reverse_order(p) = [
-    for (i=[len(p)-1:-1:0]) [
-        p[i][0], 
-        p[i][1],
-        i==len(p)-1
-            ? p[0][2]
-            : p[i+1][2],
-        p[i][3]
-    ]
-];
-
-// Get all of the relative position vectors from list of parameters.
-function extract_all_rel_position_vectors(p) =
-    _extract_rel_pos_vectors_up_to_n(params_pos_relative, len(params_pos_relative)-1);
-
 // Return the final position of the center of the last element for a 
 // list of parameters that uses relative position vectors.
 function get_final_position(p) = rel_to_abs_positions(p)[len(p)-1][2];
@@ -122,6 +106,22 @@ function rot_x(angle) = [angle, [1, 0, 0]];
 function rot_y(angle) = [angle, [0, 1, 0]];
 function rot_z(angle) = [angle, [0, 0, 1]];
 function no_rot() = rot_z(0);
+
+// Get all of the relative position vectors from list of parameters.
+function extract_all_rel_position_vectors(p) =
+    _extract_rel_pos_vectors_up_to_n(params_pos_relative, len(params_pos_relative)-1);
+
+// Reverse the order of a list of parameters with relative positions.
+function reverse_order(p) = [
+    for (i=[len(p)-1:-1:0]) [
+        p[i][0], 
+        p[i][1],
+        i==len(p)-1
+            ? p[0][2]
+            : p[i+1][2],
+        p[i][3]
+    ]
+];
 
 
 /*---------------------------------------------------------------------------------------
