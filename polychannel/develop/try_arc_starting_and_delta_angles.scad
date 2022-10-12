@@ -57,6 +57,7 @@ module row_of_arcs(start_ang_delta, delta_ang, n_samps, x_offset, y_offset, z_of
 }
 
 // Overall labels
+color("black") translate([30,14,0]) rotate(text_rotate) scale(0.19) text("xy Arcs", halign="center", valign="center");
 color("black") translate([16,10,0]) rotate(text_rotate) scale(0.16) text("Starting angle, delta angle");
 color("black") translate([3,6.6,0]) rotate(text_rotate) scale(0.13) text("Positive starting angle");
 color("black") translate([38,6.6,0]) rotate(text_rotate) scale(0.13) text("Negative starting angle");
