@@ -35,7 +35,6 @@ height = 1;
 size_for_arc_xy = [width, eps, height];
 
 module row_of_arc_xy(start_ang_delta, delta_ang, n_samps, x_offset, y_offset, z_offset, clr="lightblue") {
-    delta_ang1 = 75; 
     for (i=[0:1:n_samps-1]) {
         start_ang = i * start_ang_delta;
         location = [i * x_offset, y_offset, z_offset];
