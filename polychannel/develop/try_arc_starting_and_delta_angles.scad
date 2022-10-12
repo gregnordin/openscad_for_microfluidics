@@ -5,7 +5,7 @@ function _calc_arc_rot_i(angle1, delta_angle, n, i, rot_axis) = [
     angle1 + i*delta_angle/n, 
     rot_axis
 ];
-function _calc_arc_xy_rot_deltaang_i(angle1, delta_angle, n, i, rot_axis) = 
+function _calc_arc_xy_rot_deltaang_i(angle1, delta_angle, n, i) = 
     _calc_arc_rot_i(angle1, delta_angle, n, i, [0, 0, 1]);
 function _calc_arc_xy_pos_deltaang_i(radius, angle1, delta_angle, n, i) = [
     radius*cos(angle1 + i*delta_angle/n), 
@@ -21,11 +21,12 @@ function _arc_xy_pos_rot_deltaang_oneline(shape, size, radius, angle1, delta_ang
 function _arc_xy_abs_position_deltaang(shape, size, radius, angle1, delta_angle, n) = [
     for (i=[0:1:n]) _arc_xy_pos_rot_deltaang_oneline(shape, size, radius, angle1, delta_angle, n, i)
 ];
-function arc_xy_rel_position2(shape, size, radius, angle1, delta_angle, n) = 
+function arc_xy(shape, size, radius, angle1, delta_angle, n) = 
     abs_to_rel_positions(_arc_xy_abs_position_deltaang(shape, size, radius, angle1, delta_angle, n));
 
 
 eps=0.01;
+text_rotate = [0,0,0];
 
 n_segs90 = 12;
 radius = 1.5;
@@ -42,24 +43,34 @@ module row_of_arcs(start_ang_delta, delta_ang, n_samps, x_offset, y_offset, z_of
         translate(location)
         polychannel(
             [
-                each arc_xy_rel_position2("cube", size_for_arc_xy, radius, start_ang, delta_ang, n_segs90)
+                each arc_xy("cube", size_for_arc_xy, radius, start_ang, delta_ang, n_segs90)
             ],
             clr=clr
         );
         color(clr) 
             translate(location + [0,4,0]) 
-                rotate([0,0,0]) 
+                rotate(text_rotate) 
                     scale(0.1) 
                         text(str(start_ang, ",", delta_ang),halign="center",valign="center");
 
     }
 }
 
-color("black") translate([-1.5,7,0]) rotate([0,0,0]) scale(0.16) text("Starting angle, delta angle"); //,halign="center",valign="center");
+// Overall labels
+color("black") translate([16,10,0]) rotate(text_rotate) scale(0.16) text("Starting angle, delta angle");
+color("black") translate([3,6.6,0]) rotate(text_rotate) scale(0.13) text("Positive starting angle");
+color("black") translate([38,6.6,0]) rotate(text_rotate) scale(0.13) text("Negative starting angle");
+color("black") translate([-22,1,0]) rotate(text_rotate) scale(0.13) text("delta angle = +75deg");
+color("black") translate([-22,-9,0]) rotate(text_rotate) scale(0.13) text("delta angle = -75deg");
+color("black") translate([-22,-19,0]) rotate(text_rotate) scale(0.13) text("delta angle = +165deg");
+color("black") translate([-22,-29,0]) rotate(text_rotate) scale(0.13) text("delta angle = -165deg");
+
+// Positive starting angles
 row_of_arcs(90, 75, 5, 6, 0, 0, clr="lightblue");
 row_of_arcs(90, -75, 5, 6, -10, 0, clr="blue");
 row_of_arcs(90, 165, 5, 6, -20, 0, clr="lightgreen");
 row_of_arcs(90, -165, 5, 6, -30, 0, clr="green");
+// Negative starting angles
 translate([35, 0, 0]) row_of_arcs(-90, 75, 5, 6, 0, 0, clr="lightblue");
 translate([35, 0, 0]) row_of_arcs(-90, -75, 5, 6, -10, 0, clr="blue");
 translate([35, 0, 0]) row_of_arcs(-90, 165, 5, 6, -20, 0, clr="lightgreen");
