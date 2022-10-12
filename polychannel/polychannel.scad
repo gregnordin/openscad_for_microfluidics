@@ -198,6 +198,81 @@ function rel_to_abs_positions(p) = [
 
 
 /*---------------------------------------------------------------------------------------
+// Circular arc functions to calculate relative positions along an arc in xy.
+// n is the number of segments in arc, so number of points in arc is n+1.
+/--------------------------------------------------------------------------------------*/
+function _calc_arc_rot_i(angle1, delta_angle, n, i, rot_axis) = [
+    angle1 + i*delta_angle/n, 
+    rot_axis
+];
+function _calc_arc_xy_rot_deltaang_i(angle1, delta_angle, n, i) = 
+    _calc_arc_rot_i(angle1, delta_angle, n, i, [0, 0, 1]);
+function _calc_arc_xy_pos_deltaang_i(radius, angle1, delta_angle, n, i) = [
+    radius*cos(angle1 + i*delta_angle/n), 
+    radius*sin(angle1 + i*delta_angle/n),
+    0
+];
+function _arc_xy_pos_rot_deltaang_oneline(shape, size, radius, angle1, delta_angle, n, i) = [
+    shape, 
+    size, 
+    _calc_arc_xy_pos_deltaang_i(radius, angle1, delta_angle, n, i), 
+    _calc_arc_xy_rot_deltaang_i(angle1, delta_angle, n, i)
+];
+function _arc_xy_abs_position_deltaang(shape, size, radius, angle1, delta_angle, n) = [
+    for (i=[0:1:n]) _arc_xy_pos_rot_deltaang_oneline(shape, size, radius, angle1, delta_angle, n, i)
+];
+function arc_xy(shape, size, radius, angle1, delta_angle, n) = 
+    abs_to_rel_positions(_arc_xy_abs_position_deltaang(shape, size, radius, angle1, delta_angle, n));
+
+/*---------------------------------------------------------------------------------------
+// Circular arc functions to calculate relative positions along an arc in xz.
+// n is the number of segments in arc, so number of points in arc is n+1.
+/--------------------------------------------------------------------------------------*/
+function _calc_arc_xz_rot_deltaang_i(angle1, delta_angle, n, i) = 
+    _calc_arc_rot_i(angle1, delta_angle, n, i, [0, -1, 0]);
+function _calc_arc_xz_pos_deltaang_i(radius, angle1, delta_angle, n, i) = [
+    radius*cos(angle1 + i*delta_angle/n), 
+    0,
+    radius*sin(angle1 + i*delta_angle/n)
+];
+function _arc_xz_pos_rot_deltaang_oneline(shape, size, radius, angle1, delta_angle, n, i) = [
+    shape, 
+    size, 
+    _calc_arc_xz_pos_deltaang_i(radius, angle1, delta_angle, n, i), 
+    _calc_arc_xz_rot_deltaang_i(angle1, delta_angle, n, i)
+];
+function _arc_xz_abs_position_deltaang(shape, size, radius, angle1, delta_angle, n) = [
+    for (i=[0:1:n]) _arc_xz_pos_rot_deltaang_oneline(shape, size, radius, angle1, delta_angle, n, i)
+];
+function arc_xz(shape, size, radius, angle1, delta_angle, n) = 
+    abs_to_rel_positions(_arc_xz_abs_position_deltaang(shape, size, radius, angle1, delta_angle, n));
+
+/*---------------------------------------------------------------------------------------
+// Circular arc functions to calculate relative positions along an arc in yz.
+// n is the number of segments in arc, so number of points in arc is n+1.
+/--------------------------------------------------------------------------------------*/
+function _calc_arc_yz_rot_deltaang_i(angle1, delta_angle, n, i) = 
+    _calc_arc_rot_i(angle1, delta_angle, n, i, [1, 0, 0]);
+function _calc_arc_yz_pos_deltaang_i(radius, angle1, delta_angle, n, i) = [
+    0,
+    radius*cos(angle1 + i*delta_angle/n), 
+    radius*sin(angle1 + i*delta_angle/n)
+];
+function _arc_yz_pos_rot_deltaang_oneline(shape, size, radius, angle1, delta_angle, n, i) = [
+    shape, 
+    size, 
+    _calc_arc_yz_pos_deltaang_i(radius, angle1, delta_angle, n, i), 
+    _calc_arc_yz_rot_deltaang_i(angle1, delta_angle, n, i)
+];
+function _arc_yz_abs_position_deltaang(shape, size, radius, angle1, delta_angle, n) = [
+    for (i=[0:1:n]) _arc_yz_pos_rot_deltaang_oneline(shape, size, radius, angle1, delta_angle, n, i)
+];
+function arc_yz(shape, size, radius, angle1, delta_angle, n) = 
+    abs_to_rel_positions(_arc_yz_abs_position_deltaang(shape, size, radius, angle1, delta_angle, n));
+
+
+
+/*---------------------------------------------------------------------------------------
 // Circular arc functions to calculate absolute and relative positions along an arc in xy.
 // n is the number of segments in arc, so number of points in arc is n+1.
 //

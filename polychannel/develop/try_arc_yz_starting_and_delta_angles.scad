@@ -1,30 +1,5 @@
 use <../polychannel.scad>
 
-
-function _calc_arc_rot_i(angle1, delta_angle, n, i, rot_axis) = [
-    angle1 + i*delta_angle/n, 
-    rot_axis
-];
-function _calc_arc_yz_rot_deltaang_i(angle1, delta_angle, n, i) = 
-    _calc_arc_rot_i(angle1, delta_angle, n, i, [1, 0, 0]);
-function _calc_arc_yz_pos_deltaang_i(radius, angle1, delta_angle, n, i) = [
-    0,
-    radius*cos(angle1 + i*delta_angle/n), 
-    radius*sin(angle1 + i*delta_angle/n)
-];
-function _arc_yz_pos_rot_deltaang_oneline(shape, size, radius, angle1, delta_angle, n, i) = [
-    shape, 
-    size, 
-    _calc_arc_yz_pos_deltaang_i(radius, angle1, delta_angle, n, i), 
-    _calc_arc_yz_rot_deltaang_i(angle1, delta_angle, n, i)
-];
-function _arc_yz_abs_position_deltaang(shape, size, radius, angle1, delta_angle, n) = [
-    for (i=[0:1:n]) _arc_yz_pos_rot_deltaang_oneline(shape, size, radius, angle1, delta_angle, n, i)
-];
-function arc_yz(shape, size, radius, angle1, delta_angle, n) = 
-    abs_to_rel_positions(_arc_yz_abs_position_deltaang(shape, size, radius, angle1, delta_angle, n));
-
-
 eps=0.01;
 text_rotate = [90,0,90];
 
