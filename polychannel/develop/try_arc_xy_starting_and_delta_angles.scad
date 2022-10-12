@@ -34,7 +34,7 @@ width = 1.5;
 height = 1;
 size_for_arc_xy = [width, eps, height];
 
-module row_of_arcs(start_ang_delta, delta_ang, n_samps, x_offset, y_offset, z_offset, clr="lightblue") {
+module row_of_arc_xy(start_ang_delta, delta_ang, n_samps, x_offset, y_offset, z_offset, clr="lightblue") {
     delta_ang1 = 75; 
     for (i=[0:1:n_samps-1]) {
         start_ang = i * start_ang_delta;
@@ -67,12 +67,12 @@ color("black") translate([-22,-19,0]) rotate(text_rotate) scale(0.13) text("delt
 color("black") translate([-22,-29,0]) rotate(text_rotate) scale(0.13) text("delta angle = -165deg");
 
 // Positive starting angles
-row_of_arcs(90, 75, 5, 6, 0, 0, clr="lightblue");
-row_of_arcs(90, -75, 5, 6, -10, 0, clr="blue");
-row_of_arcs(90, 165, 5, 6, -20, 0, clr="lightgreen");
-row_of_arcs(90, -165, 5, 6, -30, 0, clr="green");
+row_of_arc_xy(90, 75, 5, 6, 0, 0, clr="lightblue");
+row_of_arc_xy(90, -75, 5, 6, -10, 0, clr="blue");
+row_of_arc_xy(90, 165, 5, 6, -20, 0, clr="lightgreen");
+row_of_arc_xy(90, -165, 5, 6, -30, 0, clr="green");
 // Negative starting angles
-translate([35, 0, 0]) row_of_arcs(-90, 75, 5, 6, 0, 0, clr="lightblue");
-translate([35, 0, 0]) row_of_arcs(-90, -75, 5, 6, -10, 0, clr="blue");
-translate([35, 0, 0]) row_of_arcs(-90, 165, 5, 6, -20, 0, clr="lightgreen");
-translate([35, 0, 0]) row_of_arcs(-90, -165, 5, 6, -30, 0, clr="green");
+translate([35, 0, 0]) row_of_arc_xy(-90, 75, 5, 6, 0, 0, clr="lightblue");
+translate([35, 0, 0]) row_of_arc_xy(-90, -75, 5, 6, -10, 0, clr="blue");
+translate([35, 0, 0]) row_of_arc_xy(-90, 165, 5, 6, -20, 0, clr="lightgreen");
+translate([35, 0, 0]) row_of_arc_xy(-90, -165, 5, 6, -30, 0, clr="green");

@@ -137,8 +137,12 @@ Try creating an arc with intersection of cubes rotated and moved along an arc. L
 - &#9989; Refactor `arcs_set_first_position.scad`.
 - &#9989; Try creating functions to do an xy arc specifying starting angle and delta angle, `try_arc_starting_and_delta_angles.scad`.
 - &#9989; Create shorthand functions for cube and sphere shapes to reduce verbosity, `shorter_shape_pos_approach.scad`.
-- &#10060; Re-do Dallin's interleaved 1D mixer to use circular arcs for the narrow interleaved channels and the narrow channels feeding into and out of the high aspect ratio mixer channel. &rarr; **ask Dallin to do it.**
-- Update `serpentine.scad` and `serpentine_circularends.scad`.
+- Re-do all arc functions to use starting angle and delta angle.
+- Create map of combinations of starting angles and delta angles for all arc functions.
+- Re-do examples to make use of new arc functions.
+- Update `serpentine.scad` and `serpentine_circularends.scad` to use latest polychannel methods.
+- Update README.md to use new methods.
+- Update project wiki page on polychannel.
 
 
 Other possible modules for channel paths that use the new data format developed above and the hull-based polychannel approach:
