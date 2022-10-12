@@ -135,6 +135,7 @@ Try creating an arc with intersection of cubes rotated and moved along an arc. L
 - &#9989; ~~Modify `abs_to_rel_positions2()` to keep the first position and make all of the others relative.~~
 - &#9989; Oops, I need to add r0 after doing a completely relative set of positions. **New function that in essence does a translate on a set of shape/pos from an arc function.** `set_first_position()` - success!
 - &#9989; Refactor `arcs_set_first_position.scad`.
+- &#9989; Try creating functions to do an xy arc specifying starting angle and delta angle, `try_arc_starting_and_delta_angles.scad`.
 - &#10060; Re-do Dallin's interleaved 1D mixer to use circular arcs for the narrow interleaved channels and the narrow channels feeding into and out of the high aspect ratio mixer channel. &rarr; **ask Dallin to do it.**
 - Update `serpentine.scad` and `serpentine_circularends.scad`.
 
