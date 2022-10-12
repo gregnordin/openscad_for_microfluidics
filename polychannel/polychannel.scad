@@ -12,6 +12,7 @@
 / Rev. 4, 10/5/22, by G. Nordin - Add uniformly_increase functions
 / Rev. 4.1, 10/7/22, by G. Nordin - Add rot_* functions
 / Rev. 4.2, 10/12/2, by G. Nordin - Add cube_shape(), sphere_shape()
+/ Rev. 4.3, 10/12/2, by G. Nordin - Add arc_xy, arc_xz, arc_yz and associated functions
 --------------------------------------------------------------------------------------*/
 $fn=50;
 
@@ -273,6 +274,9 @@ function arc_yz(shape, size, radius, angle1, delta_angle, n) =
 
 
 /*---------------------------------------------------------------------------------------
+//
+// NOTE: THE ARC FUNCTIONS BELOW ARE OLD AND WILL BE DEPRECATED.
+//
 // Circular arc functions to calculate absolute and relative positions along an arc in xy.
 // n is the number of segments in arc, so number of points in arc is n+1.
 //
