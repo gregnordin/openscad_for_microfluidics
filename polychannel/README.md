@@ -59,6 +59,8 @@ Each line in a list of shapes/positions has the following format:
 
 ## Minimal example
 
+See `examples/minimal.scad`.
+
 ### Code
 
 ```
@@ -87,8 +89,10 @@ color("blue") translate([8,-4,5]) rotate([90,0,0]) scale(0.1) text("Shapes-only"
 
 ### Alternative code - use helper functions
 
+See `examples/minimal_use_helper_functions.scad`.
+
 ```
-use <../polychannel.scad>
+use <polychannel.scad>
 
 function cs(size, position, ang=[0, [0,0,1]]) = cube_shape(size, position, ang);
 function ss(size, position, ang=[0, [0,0,1]]) = sphere_shape(size, position, ang);
@@ -175,13 +179,19 @@ translate([0, 3, 0]) polychannel(params_arc);
 
 ### `arc_xy()`
 
+See `examples/arc_xy_table.scad`.
+
 ![](examples/arc_xy_table.png)
 
 ### `arc_xz()`
 
+See `examples/arc_xz_table.scad`.
+
 ![](examples/arc_xz_table.png)
 
 ### `arc_yz()`
+
+See `examples/arc_yz_table.scad`.
 
 ![](examples/arc_yz_table.png)
 
@@ -197,6 +207,8 @@ Illustrate 4 different ways of doing 90&deg; bends:
 - Circular arcs with helper functions
 
 ## Code
+
+See `examples/90deg_bends.scad`.
 
 ```
 use <polychannel.scad>
@@ -294,6 +306,8 @@ translate([20, 0, 0]) {
 
 ## Code
 
+See `examples/ascending_arcs.scad`.
+
 ```
 use <polychannel.scad>
 
@@ -345,6 +359,8 @@ translate([15, 0, 0])
 # Channel with general shapes
 
 ## Code - compare verbose params and helper function approaches
+
+See example code at bottom of `polychannel.scad`.
 
 ```
 use <polychannel.scad>
