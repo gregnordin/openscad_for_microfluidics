@@ -85,7 +85,7 @@ color("blue") translate([8,-4,5]) rotate([90,0,0]) scale(0.1) text("Shapes-only"
 
 ![](examples/minimal.png)
 
-### Alternative code - helper functions
+### Alternative code - use helper functions
 
 ```
 use <../polychannel.scad>
@@ -171,16 +171,30 @@ translate([0, 3, 0]) polychannel(params_arc);
 
 ![](examples/arc_yz_definitions.png)
 
+## Tables of starting angles and &Delta;&theta;
+
+### `arc_xy()`
+
+![](examples/arc_xy_table.png)
+
+### `arc_xz()`
+
+![](examples/arc_xz_table.png)
+
+### `arc_yz()`
+
+![](examples/arc_yz_table.png)
 
 # Channel with 90&deg; bends
 
 ## Purpose
 
-Illustrate 3 different ways of doing 90&deg; bends:
+Illustrate 4 different ways of doing 90&deg; bends:
 
 - Rectangular blocks
 - Flat plates rotated 45&deg;
 - Circular arcs
+- Circular arcs with helper functions
 
 ## Code
 
@@ -330,7 +344,7 @@ translate([15, 0, 0])
 
 # Channel with general shapes
 
-## Code - compare verbose params and with helper functions
+## Code - compare verbose params and helper function approaches
 
 ```
 use <polychannel.scad>
