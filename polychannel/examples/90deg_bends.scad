@@ -61,8 +61,9 @@ translate([0, 0, 0]) {
 };
 
 // Similar but use set_first_position() to create relative offset for start of circular arcs.
+size_yz = [eps, width_90bends, height_90bends];
 params_90bends_arcs2 = [
-    ["cube", [eps, width_90bends, height_90bends], [0, 0, 0], no_rot()],
+    cube_shape(size_yz, [0, 0, 0]),
     each set_first_position(
         arc_xy("cube", [width_90bends, eps, height_90bends], radius90, -90, 90, n_segs90), 
         pos=[6.5, 0, 0]),
@@ -76,7 +77,7 @@ params_90bends_arcs2 = [
         arc_xz("cube", [height_90bends, width_90bends, eps], radius90/1.5, 90, 90, n_segs90),
         pos=[-0.5, 0, 0]),
     each arc_xz("cube", [height_90bends, width_90bends, eps], radius90/1.5, 0, -90, n_segs90),
-    ["cube", [eps, width_90bends, height_90bends], [-4, 0, 0], no_rot()],
+    cube_shape(size_yz, [-4, 0, 0]),
 ];
 translate([20, 0, 0]) {
     polychannel(params_90bends_arcs2, clr="Red", show_only_shapes=true);
