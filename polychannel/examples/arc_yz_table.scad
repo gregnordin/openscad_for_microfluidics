@@ -1,4 +1,5 @@
 use <../polychannel.scad>
+include <../unicode.scad>
 
 eps=0.01;
 text_rotate = [90,0,90];
@@ -31,8 +32,8 @@ module row_of_arc_yz(start_ang_delta, delta_ang, n_samps, x_offset, y_offset, z_
 }
 
 // Overall labels
-color("black") translate([0,30,14]) rotate(text_rotate) scale(0.19) text("yz Arcs", halign="center", valign="center");
-color("black") translate([0,16,10]) rotate(text_rotate) scale(0.16) text("Starting angle, delta angle");
+color("black") translate([0,30,12]) rotate(text_rotate) scale(0.19) 
+    text(str("arc_yz(", theta, ", ", Delta, theta, ")"), halign="center", valign="center");
 color("black") translate([0,3,6.6]) rotate(text_rotate) scale(0.13) text("Positive starting angle");
 color("black") translate([0,38,6.6]) rotate(text_rotate) scale(0.13) text("Negative starting angle");
 color("black") translate([0,-22,1]) rotate(text_rotate) scale(0.13) text("delta angle = +75deg");

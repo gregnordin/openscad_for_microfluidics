@@ -142,6 +142,7 @@ Try creating an arc with intersection of cubes rotated and moved along an arc. L
 - &#9989; Re-do examples to make use of new arc and helper functions.
 - &#9989; Update README.md to use new methods.
 - &#9989; Update project wiki page on polychannel.
+- &#9989; Figure out how to use unicode characters.
 - Update `serpentine.scad` and `serpentine_circularends.scad` to use latest polychannel methods.
 
 
