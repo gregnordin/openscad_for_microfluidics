@@ -140,13 +140,14 @@ Try creating an arc with intersection of cubes rotated and moved along an arc. L
 - &#9989; Re-do all arc functions to use starting angle and delta angle.
 - &#9989; Create map of combinations of starting angles and delta angles for all arc functions.
 - &#9989; Re-do examples to make use of new arc and helper functions.
+- &#9989; Update README.md to use new methods.
+- &#9989; Update project wiki page on polychannel.
 - Update `serpentine.scad` and `serpentine_circularends.scad` to use latest polychannel methods.
-- Update README.md to use new methods.
-- Update project wiki page on polychannel.
 
 
 Other possible modules for channel paths that use the new data format developed above and the hull-based polychannel approach:
 
+- Generalize `shape3D()` to accept `polyhedron` as well as `cube` and `sphere/sphr`.
 - S-curve.
     - Inputs:
         - radius1
