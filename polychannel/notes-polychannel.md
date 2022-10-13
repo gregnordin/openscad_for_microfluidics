@@ -139,7 +139,7 @@ Try creating an arc with intersection of cubes rotated and moved along an arc. L
 - &#9989; Create shorthand functions for cube and sphere shapes to reduce verbosity, `shorter_shape_pos_approach.scad`.
 - &#9989; Re-do all arc functions to use starting angle and delta angle.
 - &#9989; Create map of combinations of starting angles and delta angles for all arc functions.
-- Re-do examples to make use of new arc functions.
+- &#9989; Re-do examples to make use of new arc and helper functions.
 - Update `serpentine.scad` and `serpentine_circularends.scad` to use latest polychannel methods.
 - Update README.md to use new methods.
 - Update project wiki page on polychannel.

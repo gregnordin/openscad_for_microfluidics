@@ -330,42 +330,70 @@ translate([15, 0, 0])
 
 # Channel with general shapes
 
-## Code
+## Code - compare verbose params and with helper functions
 
 ```
 use <polychannel.scad>
 
 // Note: all examples use relative coordinates to specify shape positions.
 
-eps = 0.01;
-
-params_pos_relative = [
-    ["sphr", [eps, 4, 4], [0, 0, 0], [0, [0, 0, 1]]],
-    ["sphr", [eps, 4, 4], [7, 0, 0], [0, [0, 0, 1]]],
-    ["sphr", [eps, 3, 3], [0, 0, 0], [0, [0, 0, 1]]],
-    ["cube", [eps, 1, 1], [3, 0, 0], [0, [0, 0, 1]]],
-    ["cube", [eps, 1*sqrt(2), 1], [3, 0, 0], [45, [0, 0, 1]]],
-    ["cube", [eps, 1, 1], [0, 2, 0], [90, [0, 0, 1]]],
-    ["cube", [3, 1, 3], [0, 3, 0], [0, [0, 0, 1]]],
-    ["cube", [1, eps, 1], [0, 2, 0], [0, [0, 0, 1]]],
-    ["sphr", [eps, 1*sqrt(2), 1], [0, 2, 0], [45, [0, 0, 1]]],
-    ["sphr", [eps, 2, 2], [5, 0, 0], [0, [0, 0, 1]]],
-    ["sphr", [2, 2, 2], [2, 0, 0], [0, [0, 0, 1]]],
-    ["sphr", [2, 2, 2], [0, -4, 4], [0, [0, 0, 1]]],
-    ["cube", [1, eps, 2], [0, -3, 0], [0, [0, 0, 1]]],
-    each arc_xy_rel_position("cube", [1, eps, 2], radius=3, angle1=0, angle2=-90, n=10),
-    ["cube", [1, 1, 2], [-2, 0, 0], [0, [0, 0, 1]]],
-    each arc_xz_rel_position("cube", [2, 1, eps], radius=3, angle1=-90, angle2=-270, n=20),
-    each arc_xy_rel_position("cube", [1, eps, 2], radius=1, angle1=-90, angle2=0, n=10),
-    ["cube", [1, eps, 1], [0, 5, 0], [0, [0, 0, 1]]],
-    each arc_xy_rel_position("cube", [1, eps, 1], radius=1, angle1=0, angle2=90, n=10),
-    ["cube", [eps, 1, 1], [-15, 0, 0], [0, [0, 0, 1]]],
+no_rotation = no_rot();
+n_segs90 = 10;
+params_verbose = [
+    ["sphr", [eps, 4, 4], [0, 0, 0], no_rotation],
+    ["sphr", [eps, 4, 4], [7, 0, 0], no_rotation],
+    ["sphr", [eps, 3, 3], [0, 0, 0], no_rotation],
+    ["cube", [eps, 1, 1], [3, 0, 0], no_rotation],
+    ["cube", [eps, 1*sqrt(2), 1], [3, 0, 0], rot_z(45)],
+    ["cube", [eps, 1, 1], [0, 2, 0], rot_z(90)],
+    ["cube", [3, 1, 3], [0, 3, 0], no_rotation],
+    ["cube", [1, eps, 1], [0, 2, 0], no_rotation],
+    ["sphr", [eps, 1*sqrt(2), 1], [0, 2, 0], rot_z(45)],
+    ["sphr", [eps, 2, 2], [5, 0, 0], no_rotation],
+    ["sphr", [2, 2, 2], [2, 0, 0], no_rotation],
+    ["sphr", [2, 2, 2], [0, -4, 4], no_rotation],
+    ["cube", [1, eps, 2], [0, -3, 0], no_rotation],
+    each arc_xy("cube", [1, eps, 2], radius=3, angle1=0, delta_angle=-90, n=n_segs90),
+    ["cube", [1, 1, 2], [-2, 0, 0], no_rotation],
+    each arc_xz("cube", [2, 1, eps], radius=3, angle1=-90, delta_angle=-180, n=2*n_segs90),
+    each arc_xy("cube", [1, eps, 2], radius=1, angle1=-90, delta_angle=90, n=n_segs90),
+    ["cube", [1, eps, 1], [0, 5, 0], no_rotation],
+    each arc_xy("cube", [1, eps, 1], radius=1, angle1=0, delta_angle=90, n=n_segs90),
+    ["cube", [eps, 1, 1], [-15, 0, 0], no_rotation],
 ];
-params_pos_absolute = rel_to_abs_positions(params_pos_relative);
 
-polychannel(params_pos_relative, clr="red", show_only_shapes=true);
-translate([0, 25, 0]) polychannel(params_pos_absolute, relative_positions=false);
-translate([0, -25, 0]) polychannel(params_pos_relative, clr="Salmon");
+function cs(size, position, ang=[0, [0,0,1]]) = cube_shape(size, position, ang);
+function ss(size, position, ang=[0, [0,0,1]]) = sphere_shape(size, position, ang);
+stay_same_position = [0, 0, 0];
+params_with_helper_functions = [
+    ss([eps, 4, 4], [0, 0, 0]),
+    ss([eps, 4, 4], [7, 0, 0]),
+    ss([eps, 3, 3], stay_same_position),
+    cs([eps, 1, 1], [3, 0, 0]),
+    cs([eps, 1*sqrt(2), 1], [3, 0, 0], rot_z(45)),
+    cs([eps, 1, 1], [0, 2, 0], rot_z(90)),
+    cs([3, 1, 3], [0, 3, 0]),
+    cs([1, eps, 1], [0, 2, 0]),
+    ss([eps, 1*sqrt(2), 1], [0, 2, 0], rot_z(45)),
+    ss([eps, 2, 2], [5, 0, 0]),
+    ss([2, 2, 2], [2, 0, 0]),
+    ss([2, 2, 2], [0, -4, 4]),
+    each set_first_position(
+        arc_xy("cube", [1, eps, 2], radius=3, angle1=0, delta_angle=-90, n=n_segs90),
+        pos=[0, -3, 0]),
+    each set_first_position(
+        arc_xz("cube", [2, 1, eps], radius=3, angle1=-90, delta_angle=-180, n=2*n_segs90),
+        pos=[-2, 0, 0]),
+    each arc_xy("cube", [1, eps, 2], radius=1, angle1=-90, delta_angle=90, n=n_segs90),
+    each set_first_position(
+        arc_xy("cube", [1, eps, 1], radius=1, angle1=0, delta_angle=90, n=n_segs90),
+        pos=[0, 5, 0]),
+    cs([eps, 1, 1], [-15, 0, 0]),
+];
+
+polychannel(params_verbose, clr="Salmon", show_only_shapes=true);
+translate([0, 25, 0]) polychannel(params_verbose);
+translate([0, -25, 0]) polychannel(params_with_helper_functions, clr="lightgreen");
 ```
 
 ## Result
