@@ -48,14 +48,14 @@ radius90 = 1.5;
 params_90bends_arcs = [
     ["cube", [eps, width_90bends, height_90bends], [0, 0, 0], [0, z_vec]],
     ["cube", [eps, width_90bends, height_90bends], [6.5, 0, 0], [0, z_vec]],
-    each arc_xy_rel_position("cube", [width_90bends, eps, height_90bends], radius90, -90, 0, n_segs90),
+    each arc_xy("cube", [width_90bends, eps, height_90bends], radius90, -90, 90, n_segs90),
     ["cube", [width_90bends, eps, height_90bends], [0, 4, 0], [0, z_vec]],
-    each arc_yz_rel_position("cube", [width_90bends, height_90bends, eps], radius90, -90, 90, 2*n_segs90),
+    each arc_yz("cube", [width_90bends, height_90bends, eps], radius90, -90, 180, 2*n_segs90),
     ["cube", [width_90bends, eps, height_90bends], [0, -1.5, 0], [0, z_vec]],
-    each arc_xy_rel_position("cube", [width_90bends, eps, height_90bends], radius90, 0, -90, n_segs90),
+    each arc_xy("cube", [width_90bends, eps, height_90bends], radius90, 0, -90, n_segs90),
     ["cube", [eps, width_90bends, height_90bends], [-0.5, 0, 0], [0, z_vec]],
-    each arc_xz_rel_position("cube", [height_90bends, width_90bends, eps], radius90/1.5, 90, 180, n_segs90),
-    each arc_xz_rel_position("cube", [height_90bends, width_90bends, eps], radius90/1.5, 0, -90, n_segs90),
+    each arc_xz("cube", [height_90bends, width_90bends, eps], radius90/1.5, 90, 90, n_segs90),
+    each arc_xz("cube", [height_90bends, width_90bends, eps], radius90/1.5, 0, -90, n_segs90),
     ["cube", [eps, width_90bends, height_90bends], [-4, 0, 0], [0, z_vec]],
 ];
 translate([0, 0, 0]) {
