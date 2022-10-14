@@ -162,7 +162,10 @@ Next
 
 # 10/14/22
 
-Try things out to implement cubic Bezier curve between two 3D points in `try_3D_Bezier.scad`.
+- &#9989; Implement cubic Bezier curve using `polychannel()` between two 3D points in `try_3D_Bezier.scad`.
+- I get [nan, nan, nan] when I do the cross product between parallel vectors. This doesn't seem to be causing a problem when fed into `rotate()` as the vector around which the rotation is to occur if the rotation angle is 0.
+    - Write a function that replaces [nan, nan, nan] with [0, 0, 1]?
+        - See [is_nan()](https://forum.openscad.org/is-nan-td28336.html) for a discussion about why the following user defined function works: `function is_nan(x) = x!=x;`
 
 
 ---
