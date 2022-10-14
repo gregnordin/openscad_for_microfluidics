@@ -145,6 +145,17 @@ Try creating an arc with intersection of cubes rotated and moved along an arc. L
 - &#9989; Figure out how to use unicode characters.
 - Update `serpentine.scad` and `serpentine_circularends.scad` to use latest polychannel methods.
 
+# 10/13/22
+
+## Look at how to implement cubic Bezier curve between two 3D points
+
+Search for information about splines or Bezier curves to connect points in 3D, found exactly what I need at [Interpolating splines with 3d points](https://math.stackexchange.com/questions/2316499/interpolating-splines-with-3d-points).
+
+Implement in python in `try_3D_Bezier.ipynb`. Playing with the magnitude of normal vectors is crucial in generating a nice curve.
+
+Now need to get tangent at arbitrary t.
+
+
 
 Other possible modules for channel paths that use the new data format developed above and the hull-based polychannel approach:
 
