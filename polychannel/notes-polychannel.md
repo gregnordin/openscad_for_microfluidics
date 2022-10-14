@@ -175,7 +175,7 @@ Next
 Other possible modules for channel paths that use the new data format developed above and the hull-based polychannel approach:
 
 - Generalize `shape3D()` to accept `polyhedron` as well as `cube` and `sphere/sphr`.
-- S-curve &rarr; use cubic Bezier curve.
+- &#9989; S-curve &rarr; use cubic Bezier curve.
 - [Bézier curve](https://en.wikipedia.org/wiki/B%C3%A9zier_curve) and linked Bezier curves.
     - [Python Bezier package](https://bezier.readthedocs.io/en/stable/python/reference/bezier.curve.html).
 - [B-splines](https://en.wikipedia.org/wiki/B-spline)?

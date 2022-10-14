@@ -4,7 +4,7 @@ use <../polychannel.scad>
 // Example
 p0 = [0, 0, 0];
 d0 = [5, 0, 0];
-p1 = [3, 2, 0];
+p1 = [3, 2, 1];
 d1 = [5, 0, 0];
 echo();
 echo();
@@ -48,12 +48,7 @@ echo("Rotation angle", rot_angle);
 echo("Rotation axis", rot_axis);
 color("Salmon") translate(p_t_test) rotate(a=rot_angle, v=rot_axis) cube(plate_size, center=true);
 
-// Now try making a Bezier polychannel
-// echo(cubicBezier3D_one_line("cube", [eps, 0.3, 0.2], 0.5, p0, p1, d0, d1, plate_norm));
-// echo(_cubicBezier3D_list("cube", [eps, 0.3, 0.2], 0.5, p0, p1, d0, d1, plate_norm, 4));
-// echo();
-// echo(cubicBezier3D_list("cube", [eps, 0.3, 0.2], 0.5, p0, p1, d0, d1, plate_norm, 4));
-
+// Cubic Bezier polychannel connecting two points in 3D
 translate([0, -2, 0]) polychannel(
     cubicBezier3D_list("cube", [eps, 0.3, 0.2], 0.5, p0, p1, d0, d1, plate_norm, 30)
 );
