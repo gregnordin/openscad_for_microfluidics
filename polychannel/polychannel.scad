@@ -324,14 +324,14 @@ function cubicBezier3D_one_line(shape, size, t, p0, p1, d0, d1, shape_normal_vec
         unit_vec(cross(shape_normal_vec, cubicBezier3D_point_tangent(t, p0, p1, d0, d1)))
     ]
 ];
-function _cubicBezier3D_list(shape, size, t, p0, p1, d0, d1, shape_normal_vec, n) = [
+function _cubicBezier3D_list(shape, size, p0, p1, d0, d1, shape_normal_vec, n) = [
     for (i=[0:1:n]) 
         let (t=i/n) 
         cubicBezier3D_one_line(shape, size, t, p0, p1, d0, d1, shape_normal_vec),
 ];
-function cubicBezier3D_list(shape, size, t, p0, p1, d0, d1, shape_normal_vec, n) = 
+function cubicBezier3D_list(shape, size, p0, p1, d0, d1, shape_normal_vec, n) = 
     abs_to_rel_positions(
-        _cubicBezier3D_list(shape, size, t, p0, p1, d0, d1, shape_normal_vec, n)
+        _cubicBezier3D_list(shape, size, p0, p1, d0, d1, shape_normal_vec, n)
     );
 function unit_vec(v) = v / norm(v); 
 function angle_btwn_vecs( v1, v2) = acos(v1 * v2 / (norm(v1) * norm(v2)));

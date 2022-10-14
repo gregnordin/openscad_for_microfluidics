@@ -174,6 +174,7 @@ Next
 
 Other possible modules for channel paths that use the new data format developed above and the hull-based polychannel approach:
 
+- Method to create linked cubic Bezier curve, see my Notability notes for 11/14/22.
 - Generalize `shape3D()` to accept `polyhedron` as well as `cube` and `sphere/sphr`.
 - &#9989; S-curve &rarr; use cubic Bezier curve.
 - [Bézier curve](https://en.wikipedia.org/wiki/B%C3%A9zier_curve) and linked Bezier curves.
