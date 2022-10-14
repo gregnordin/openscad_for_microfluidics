@@ -36,7 +36,7 @@ size_cube = [1, 1, 1];
 n_steps = 100;
 for (i=[0:1:n_steps]) {
     // echo(p(i/n_steps, p0, p1, d0, d1));
-    translate(p(i/n_steps, p0, p1, d0, d1)) scale(0.05) cube(size_cube);
+    translate(p(i/n_steps, p0, p1, d0, d1)) scale(0.05) cube(size_cube, center=true);
 }
 echo();
 
@@ -44,10 +44,32 @@ t_test = 0.5;
 scale_test = 0.06;
 p_t_test = p(t_test, p0, p1, d0, d1);
 dp_t_test = dp(t_test, p0, p1, d0, d1);
+dp_t_test_norm = dp_t_test / norm(dp_t_test);
+echo("Tangent vector:", dp_t_test);
 color("red")
 hull() {
-    translate(p_t_test) scale(scale_test) cube(size_cube);
-    translate(p_t_test + dp_t_test/norm(dp_t_test)) scale(scale_test) cube(size_cube);
+    translate(p_t_test) scale(scale_test) cube(size_cube, center=true);
+    translate(p_t_test + dp_t_test_norm) scale(scale_test) cube(size_cube, center=true);
 }
 
-echo(norm([1, 1, 0]));
+eps = 0.01;
+plate_size = [eps, 0.3, 0.2];
+plate_norm = [1, 0, 0];
+color("Salmon") cube(plate_size, center=true);
+
+function _dot(v1, v2, idx) = 
+    v1[idx] * v2[idx] + (idx > 0 ? _dot(v1, v2, idx-1) : 0);
+
+function dot(v1, v2) = _dot(v1, v2, len(v1)-1);
+function angle_btwn_vecs( v1, v2) = acos(dot(v1, v2) / (norm(v1) * norm(v2)));
+
+echo("dot", dot([1, 0, 0], [5, 1, 0]));
+echo("angle", angle_btwn_vecs([1, 0, 0], [1, 1, 0]));
+
+echo(cross(plate_norm, dp_t_test_norm));
+rot_axis = cross(plate_norm, dp_t_test_norm) / norm(cross(plate_norm, dp_t_test_norm));
+echo(rot_axis);
+rot_angle = angle_btwn_vecs(plate_norm, dp_t_test);
+echo(rot_angle);
+
+color("Salmon") translate(p_t_test) rotate(a=rot_angle, v=rot_axis) cube(plate_size, center=true);
