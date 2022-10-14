@@ -153,7 +153,12 @@ Search for information about splines or Bezier curves to connect points in 3D, f
 
 Implement in python in `try_3D_Bezier.ipynb`. Playing with the magnitude of normal vectors is crucial in generating a nice curve.
 
-Now need to get tangent at arbitrary t.
+Next
+
+- Plot tangent with matplotlib ax.quiver()
+- How rotate shape in openscad so it is normal to an arbitrary vector?
+    - [Wanted: rotate function on vectors](https://forum.openscad.org/Wanted-rotate-function-on-vectors-td11218.html)
+    - Use libor's answer at [Rotating two vectors to point in the same direction](https://math.stackexchange.com/questions/114050/rotating-two-vectors-to-point-in-the-same-direction)
 
 
 
