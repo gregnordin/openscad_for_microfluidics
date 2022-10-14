@@ -14,7 +14,24 @@ function cubicBezier3D_point_tangent(t, p0, p1, d0, d1) =
     3 * c1(p0, d0) * (t * (2*t - 2) + (1 - t)^2) +
     3 * c2(p1, d1) * (-1 * t^2 + 2 * t * (1 - t)) +
     3 * c3(p1) * t^2;
-
+function cubicBezier3D_one_line(shape, size, t, p0, p1, d0, d1, shape_normal_vec) = [
+    shape, 
+    size, 
+    cubicBezier3D_point(t, p0, p1, d0, d1),
+    [
+        angle_btwn_vecs(shape_normal_vec, cubicBezier3D_point_tangent(t, p0, p1, d0, d1)),
+        unit_vec(cross(shape_normal_vec, cubicBezier3D_point_tangent(t, p0, p1, d0, d1)))
+    ]
+];
+function _cubicBezier3D_list(shape, size, t, p0, p1, d0, d1, shape_normal_vec, n) = [
+    for (i=[0:1:n]) 
+        let (t=i/n) 
+        cubicBezier3D_one_line(shape, size, t, p0, p1, d0, d1, plate_norm),
+];
+function cubicBezier3D_list(shape, size, t, p0, p1, d0, d1, shape_normal_vec, n) = 
+    abs_to_rel_positions(
+        _cubicBezier3D_list(shape, size, t, p0, p1, d0, d1, shape_normal_vec, n)
+    );
 function unit_vec(v) = v / norm(v); 
 function angle_btwn_vecs( v1, v2) = acos(v1 * v2 / (norm(v1) * norm(v2)));
 
@@ -64,30 +81,12 @@ echo("Rotation angle", rot_angle);
 echo("Rotation axis", rot_axis);
 color("Salmon") translate(p_t_test) rotate(a=rot_angle, v=rot_axis) cube(plate_size, center=true);
 
-function cubicBezier3D_one_line(shape, size, t, p0, p1, d0, d1, shape_normal_vec) = [
-    shape, 
-    size, 
-    cubicBezier3D_point(t, p0, p1, d0, d1),
-    [
-        angle_btwn_vecs(shape_normal_vec, cubicBezier3D_point_tangent(t, p0, p1, d0, d1)),
-        unit_vec(cross(shape_normal_vec, cubicBezier3D_point_tangent(t, p0, p1, d0, d1)))
-    ]
-];
-function _cubicBezier3D_list(shape, size, t, p0, p1, d0, d1, shape_normal_vec, n) = [
-    for (i=[0:1:n]) 
-        let (t=i/n) 
-        cubicBezier3D_one_line("cube", [eps, 0.3, 0.2], t, p0, p1, d0, d1, plate_norm),
-];
-function cubicBezier3D_list(shape, size, t, p0, p1, d0, d1, shape_normal_vec, n) = 
-    abs_to_rel_positions(
-        _cubicBezier3D_list(shape, size, t, p0, p1, d0, d1, shape_normal_vec, n)
-    );
-
+// Now try making a Bezier polychannel
 echo(cubicBezier3D_one_line("cube", [eps, 0.3, 0.2], 0.5, p0, p1, d0, d1, plate_norm));
 echo(_cubicBezier3D_list("cube", [eps, 0.3, 0.2], 0.5, p0, p1, d0, d1, plate_norm, 4));
 echo();
 echo(cubicBezier3D_list("cube", [eps, 0.3, 0.2], 0.5, p0, p1, d0, d1, plate_norm, 4));
 
 translate([0, -2, 0]) polychannel(
-    cubicBezier3D_list("cube", [eps, 0.3, 0.2], 0.5, p0, p1, d0, d1, plate_norm, 20)
+    cubicBezier3D_list("cube", [eps, 0.3, 0.2], 0.5, p0, p1, d0, d1, plate_norm, 40)
 );

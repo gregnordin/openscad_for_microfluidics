@@ -163,6 +163,8 @@ Next
 # 10/14/22
 
 - &#9989; Implement cubic Bezier curve using `polychannel()` between two 3D points in `try_3D_Bezier.scad`.
+    - Use Nominal Animal's answer at [Interpolating splines with 3d points](https://math.stackexchange.com/questions/2316499/interpolating-splines-with-3d-points), Eq. 5.
+    - Use `sympy` to take derivative of Eq. 5 to get tangent at point calculated with value `t`.
 - I get [nan, nan, nan] when I do the cross product between parallel vectors. This doesn't seem to be causing a problem when fed into `rotate()` as the vector around which the rotation is to occur if the rotation angle is 0.
     - Write a function that replaces [nan, nan, nan] with [0, 0, 1]?
         - See [is_nan()](https://forum.openscad.org/is-nan-td28336.html) for a discussion about why the following user defined function works: `function is_nan(x) = x!=x;`

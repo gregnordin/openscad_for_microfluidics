@@ -293,6 +293,15 @@ function _arc_yz_abs_position_deltaang(shape, size, radius, angle1, delta_angle,
 function arc_yz(shape, size, radius, angle1, delta_angle, n) = 
     abs_to_rel_positions(_arc_yz_abs_position_deltaang(shape, size, radius, angle1, delta_angle, n));
 
+/*---------------------------------------------------------------------------------------
+// Cubic Bezier curve to connect two 3D points.
+//  p0 - Initial position
+//  p1 - Final position
+//  d0 - Tangent of curve at initial position
+//  d1 - Tangent of curve at final position
+//  n - Number of segments in curve, so number of points in curve is n+1.
+/--------------------------------------------------------------------------------------*/
+
 
 
 /*---------------------------------------------------------------------------------------
