@@ -301,6 +301,40 @@ function arc_yz(shape, size, radius, angle1, delta_angle, n) =
 //  d1 - Tangent of curve at final position
 //  n - Number of segments in curve, so number of points in curve is n+1.
 /--------------------------------------------------------------------------------------*/
+function c0(p0) = p0;
+function c1(p0, d0) = p0 + d0 / 3;
+function c2(p1, d1) = p1 - d1 / 3;
+function c3(p1) = p1;
+function cubicBezier3D_point(t, p0, p1, d0, d1) = 
+    c0(p0) * ((1 - t)^3) +
+    c1(p0, d0) * 3 * t * ((1 - t)^2) + 
+    c2(p1, d1) * 3 * t^2 * (1 - t) + 
+    c3(p1) * t^3;
+function cubicBezier3D_point_tangent(t, p0, p1, d0, d1) = 
+    -3 * c0(p0) * (1 - t)^2 +
+    3 * c1(p0, d0) * (t * (2*t - 2) + (1 - t)^2) +
+    3 * c2(p1, d1) * (-1 * t^2 + 2 * t * (1 - t)) +
+    3 * c3(p1) * t^2;
+function cubicBezier3D_one_line(shape, size, t, p0, p1, d0, d1, shape_normal_vec) = [
+    shape, 
+    size, 
+    cubicBezier3D_point(t, p0, p1, d0, d1),
+    [
+        angle_btwn_vecs(shape_normal_vec, cubicBezier3D_point_tangent(t, p0, p1, d0, d1)),
+        unit_vec(cross(shape_normal_vec, cubicBezier3D_point_tangent(t, p0, p1, d0, d1)))
+    ]
+];
+function _cubicBezier3D_list(shape, size, t, p0, p1, d0, d1, shape_normal_vec, n) = [
+    for (i=[0:1:n]) 
+        let (t=i/n) 
+        cubicBezier3D_one_line(shape, size, t, p0, p1, d0, d1, shape_normal_vec),
+];
+function cubicBezier3D_list(shape, size, t, p0, p1, d0, d1, shape_normal_vec, n) = 
+    abs_to_rel_positions(
+        _cubicBezier3D_list(shape, size, t, p0, p1, d0, d1, shape_normal_vec, n)
+    );
+function unit_vec(v) = v / norm(v); 
+function angle_btwn_vecs( v1, v2) = acos(v1 * v2 / (norm(v1) * norm(v2)));
 
 
 
