@@ -169,6 +169,51 @@ Next
     - Write a function that replaces [nan, nan, nan] with [0, 0, 1]?
         - See [is_nan()](https://forum.openscad.org/is-nan-td28336.html) for a discussion about why the following user defined function works: `function is_nan(x) = x!=x;`
 
+## More Bezier curve information
+
+[Bezier curve visualization](expansion_chan_extension) - interactive, note effect of length of tangent vector.  
+[Desmos interactive Bezier calculator](https://www.desmos.com/calculator/ebdtbxgbq0).  
+[Parallel curves of cubic Béziers](https://raphlinus.github.io/curves/2022/09/09/parallel-beziers.html).  
+[3D Helix Drawing using Bézier Curves](https://2015fallhw.github.io/arcidau/HelixDrawing.html).  
+[Bezier Curves, pdf slides](https://katie.cs.mtech.edu/classes/csci441/Slides/26-BezierCurves.pdf).  
+[Approximate a circle with cubic Bézier curves](https://spencermortensen.com/articles/bezier-circle/).    
+
+# 10/21/22
+
+- Use python and pyscript or panel to plot cubic Bezier curve with starting and end points and starting and end tangent vectors as inputs. Plot the curve and plot the starting and end tangent vectors. Checkbox to select automatic normalization. Checkbox to select 90&deg; circular arc (what about 45&deg;, 135&deg;, 180&deg;?). Mouse to grab and position starting and end points? Unit vector for tangent vector along with a multiplier? This visualization will be useful to teach people how to set up a cubic Bezier curve with the shape they want.
+- Do the same except do multiple curves in series.
+
+New ideas:
+
+- Create functions for each type of common channel (size and shape) used in a design, then call function to return shape/size/pos list to insert into a polychannel param list.
+    - The bottom line is to embed a lot of the microfluidic design choices into these functions defined for this specific microfluidic design.
+    - Set in stone in the function:
+        - Shape
+        - Size
+        - N plates
+    - Input into function:
+        - Straight channel:
+            - Length
+            - Tangent vector
+            - N plates = 2
+        - Circular arc bend:
+            - Start position
+            - End position
+            - Starting and ending tangent vectors?
+        - Cubic Bezier curve:
+            - Start position
+            - End position
+            - Starting and ending tangent vectors
+- Use cubic Bezier curve for straight channels.
+    - Use a function that returns Bezier curve with 2 thin plates at the ends.
+    - Inputs:
+        - Initial relative position.
+        - Length.
+        - Size: width and height for x-y channels and width and width for z channels.
+        - Tangent vector for straight channel (can be anything, not restricted to just x, y, or z).
+- Functions for sharp 90&deg; bends. Just returns the appropriately rotated and stretched thin plate.
+- Do the same but for circular arc bends (bend radius a little bigger than the width, like for example, width + 4*px)?
+- Cubic Bezier curve to approximate 90&deg; circular arcs. Other angular sweeps too?
 
 ---
 
@@ -181,7 +226,7 @@ Other possible modules for channel paths that use the new data format developed 
     - [Python Bezier package](https://bezier.readthedocs.io/en/stable/python/reference/bezier.curve.html).
 - [B-splines](https://en.wikipedia.org/wiki/B-spline)?
 - Spirals.
-- 3D serpentine channels with 90&deg; corners and with 180&deg; circular arc bends. Use `uniformly_increase_rel_pos_in_z()`.
+- 3D serpentine channels with 90&deg; corners and with 180&deg; circular arc bends. Use `uniformly_increase_rel_pos_in_z()` or just use cubic Bezier curves.
     - Stacked in z with channels in xy.
     - Stacked in x or y with vertical channels.
 
