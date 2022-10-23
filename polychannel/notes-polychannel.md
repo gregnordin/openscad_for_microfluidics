@@ -217,7 +217,10 @@ New ideas:
 
 # 10/22/22
 
-- `try_Bezier_straight_chan.scad`
+- `try_Bezier_straight_chan.scad` &rarr; success. 
+- Next: 
+    - Make `_xy`, `_xz`, `_yz` functions all use `_straight_channel()` and add plate_norm as input argument.
+    - create just xy and z channels.
 
 
 ---
