@@ -15,7 +15,7 @@ echo(c2(p1, d1));
 echo(c3(p1));
 size_cube = [1, 1, 1];
 
-// Draw Bezier curve
+// Draw Bezier curve with series of cubes
 n_steps = 100;
 for (i=[0:1:n_steps]) {
     translate(cubicBezier3D_point(i/n_steps, p0, p1, d0, d1)) scale(0.05) cube(size_cube, center=true);

@@ -189,13 +189,13 @@ New ideas:
     - The bottom line is to embed a lot of the microfluidic design choices into these functions defined for this specific microfluidic design.
     - Set in stone in the function:
         - Shape
-        - Size
+        - Size (put it in the x-y plane with normal vector and rotate it to desired tangent direction? Play with different x-y dimensions and tangent directions to make sure it always does what I expect.)
         - N plates
     - Input into function:
         - Straight channel:
             - Length
             - Tangent vector
-            - N plates = 2
+            - N plates = 1
         - Circular arc bend:
             - Start position
             - End position
@@ -214,6 +214,11 @@ New ideas:
 - Functions for sharp 90&deg; bends. Just returns the appropriately rotated and stretched thin plate.
 - Do the same but for circular arc bends (bend radius a little bigger than the width, like for example, width + 4*px)?
 - Cubic Bezier curve to approximate 90&deg; circular arcs. Other angular sweeps too?
+
+# 10/22/22
+
+- `try_Bezier_straight_chan.scad`
+
 
 ---
 
