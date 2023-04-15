@@ -3,7 +3,7 @@ use <../polychannel.scad>
 // Purpose: try using cubic Bezier curve for straight channel and
 // Try 45 deg rotated plates for 90 deg bends.
 
-// function straight_channel(width, height, length, direction, starting_position=[0, 0, 0], eps=0.01) = 
+// function _straight_channel(width, height, length, direction, starting_position=[0, 0, 0], eps=0.01) = 
 //     cubicBezier3D_list(
 //         "cube", 
 //         [eps, width, height], 

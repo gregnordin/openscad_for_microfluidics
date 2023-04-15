@@ -220,7 +220,7 @@ New ideas:
 - `try_Bezier_straight_chan.scad` &rarr; success. 
 - Next: 
     - Make `_xy`, `_xz`, `_yz` functions all use `_straight_channel()` and add plate_norm as input argument.
-    - create just xy and z channels.
+    - Actually, just make `straight_channel_x()` and `straight_channel_y()` and `straight_channel_z()`, all based off using `_straight_channel()`.
 
 
 ---
