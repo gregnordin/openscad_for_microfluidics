@@ -7,8 +7,10 @@ echo();
 echo();
 
 // User selectable parameters
-n = [4, 4, 4];
-C = 0.6;
+num_ea_dim = 10;
+n = [num_ea_dim, num_ea_dim, num_ea_dim];
+C = 0.0;
+scale = 1.0;
 
 // Don't change anything below here
 unit_cell_size = [1, 1, 1];
@@ -34,8 +36,16 @@ function positions(n, size=1) = let (width = 1/n, start=-(n-1)/(2*n)) [
         (start + i*width) * size
 ];
 
-// Trig function argument range is [-4*pi, 4*pi] = 8*pi, but we have to use degrees:
-range_deg = 8 * 180;
+module box(x=0, y=0, z=0, scale=1) {
+    translate([x, y, z]) cube(box_size * scale, center=true);
+}
+
+module test_box(x=0, y=0, z=0) {
+    box(x, y, z, scale=0.5);
+}
+
+// Trig function argument range is [-2*pi, 2*pi] = 4*pi, but we have to use degrees:
+range_deg = 2 * 180;
 temp_value = -0.2;
 echo("gyroid_nodal_eqn:", gyroid_nodal_eqn(temp_value,0,0));
 echo("       in_gyroid:", in_gyroid(temp_value,0,0, 0.0));
@@ -46,13 +56,45 @@ function gyroid_nodal_eqn(x, y, z) = let(a = range_deg)
     cos(a*z) * sin(a*x);
 
 function in_gyroid(x, y, z, C) = 
-    gyroid_nodal_eqn(x, y, z) < C 
+    gyroid_nodal_eqn(x, y, z) > C 
         ? true
         : false;
 
+function in_positive_octant(x, y, z) = 
+    x > 0 && y > 0 && z > 0
+        ? true
+        : false;
 
+function is_positive_x(x, y, z) = 
+    x > 0 
+        ? true
+        : false;
 
+module gyroid_unit_cell(scale=1) {
+    for (z = z_positions) {
+        for (y = y_positions) {
+            for (x = x_positions) {
+                if (in_gyroid(x, y, z, C))
+                // if (is_positive_x(x, y, z))
+                // if (in_positive_octant(x, y, z))
+                    box(x, y, z, scale=scale);
+                    // test_box(x, y, z);
+            }
+        }
+    }
+}
 
+// gyroid_unit_cell(scale=0.5);
+color("Green") gyroid_unit_cell(scale);
+color("red") translate([unit_cell_size[0], 0, 0]) gyroid_unit_cell(scale);
+color("blue") translate([0, unit_cell_size[1], 0]) gyroid_unit_cell(scale);
+color("HotPink") translate([unit_cell_size[0], unit_cell_size[1], 0]) gyroid_unit_cell(scale);
+translate([0, 0, unit_cell_size[2]]) {
+    color("LightGreen") gyroid_unit_cell(scale);
+    color("IndianRed") translate([unit_cell_size[0], 0, 0]) gyroid_unit_cell(scale);
+    color("dodgerblue") translate([0, unit_cell_size[1], 0]) gyroid_unit_cell(scale);
+    color("pink") translate([unit_cell_size[0], unit_cell_size[1], 0]) gyroid_unit_cell(scale);
+}
 
 // // Initially work in mm while developing code
 
