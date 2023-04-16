@@ -14,12 +14,11 @@ C = 0.6;
 unit_cell_size = [1, 1, 1];
 unit_cell_center = [0, 0, 0];
 box_size = divide_vectors(unit_cell_size, n);
-echo("box_size:", box_size);
-echo(positions(4));
-echo(positions(4, 2));
 x_positions = positions(n[0]);
 y_positions = positions(n[1]);
 z_positions = positions(n[2]);
+echo("Number of boxes:", n[0]*n[1]*n[2]);
+echo("box_size:", box_size);
 echo("x_positions:", x_positions);
 echo("y_positions:", y_positions);
 echo("z_positions:", z_positions);
@@ -30,12 +29,30 @@ function divide_vectors(a, b) = [
     a[2] / b[2]
 ];
 
-function positions(n, size=1) = 
-    let (width = 1/n, start=-(n-1)/(2*n))
-[
+function positions(n, size=1) = let (width = 1/n, start=-(n-1)/(2*n)) [
     for (i=[0:1:n-1])
         (start + i*width) * size
 ];
+
+// Trig function argument range is [-4*pi, 4*pi] = 8*pi, but we have to use degrees:
+range_deg = 8 * 180;
+temp_value = -0.2;
+echo("gyroid_nodal_eqn:", gyroid_nodal_eqn(temp_value,0,0));
+echo("       in_gyroid:", in_gyroid(temp_value,0,0, 0.0));
+
+function gyroid_nodal_eqn(x, y, z) = let(a = range_deg)
+    cos(a*x) * sin(a*y) +
+    cos(a*y) * sin(a*z) +
+    cos(a*z) * sin(a*x);
+
+function in_gyroid(x, y, z, C) = 
+    gyroid_nodal_eqn(x, y, z) < C 
+        ? true
+        : false;
+
+
+
+
 
 // // Initially work in mm while developing code
 
