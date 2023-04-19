@@ -2,6 +2,13 @@
 
 Explore Triply Periodic Minimal Surface (TPMS) structures as possible 3D printed high surface area components.
 
+Possible applications:
+
+- Compact mixers.
+- Substitute for capture monoliths.
+- Chromatography.
+- Size-selective filters, including for bead capture.
+
 # Approach
 
 - Create unit cell with discrete blocks.
