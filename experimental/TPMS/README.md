@@ -18,3 +18,11 @@ Explore Triply Periodic Minimal Surface (TPMS) structures as possible 3D printed
 - Use TPMS unit cell as-is, or use it with a difference operation like all other negative space components.
     - If the former, substitute a large rectanguler box for the TPMS region in a negative space design, then fill the box with TPMS unit cells.
     - If the latter, need to create negative space TPMS unit cell.
+
+# Thoughts
+
+- Rotate so that original x-axis is oriented in x-y? This will prevent a straight-through path in the x-direction so that a flow in that direction will have to split many times.
+- Try other TPMS structures.
+
+![](assets/TPMS_types.jpg)
+![](assets/TPMS_equations.png)
