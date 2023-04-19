@@ -11,6 +11,7 @@ Explore Triply Periodic Minimal Surface (TPMS) structures as possible 3D printed
 - Use unit cell by importing STL into a device design file.
 - Scale unit cell so that each block corresponds to a pixel &times; pixel &times; layer thickness voxel.
 - Place as many translated and scaled unit cells as needed to create desired TPMS region.
+- Initial testing shows that using a single block-based unit cell STL is a lot faster than constructing a lot of unit cells out of blocks.
 
 # Open questions
 

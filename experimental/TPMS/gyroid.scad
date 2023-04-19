@@ -14,7 +14,7 @@ scale = 1.0;
 
 // Don't change anything below here
 unit_cell_size = [1, 1, 1];
-unit_cell_center = [0, 0, 0];
+// unit_cell_center = [0, 0, 0];
 box_size = divide_vectors(unit_cell_size, n);
 x_positions = positions(n[0]);
 y_positions = positions(n[1]);
@@ -45,12 +45,13 @@ module test_box(x=0, y=0, z=0) {
 }
 
 // Trig function argument range is [-2*pi, 2*pi] = 4*pi, but we have to use degrees:
-range_deg = 2 * 180;
-temp_value = -0.2;
-echo("gyroid_nodal_eqn:", gyroid_nodal_eqn(temp_value,0,0));
-echo("       in_gyroid:", in_gyroid(temp_value,0,0, 0.0));
+// range_deg = 2 * 180;
+// temp_value = -0.2;
+// echo("gyroid_nodal_eqn:", gyroid_nodal_eqn(temp_value,0,0));
+// echo("       in_gyroid:", in_gyroid(temp_value,0,0, 0.0));
 
-function gyroid_nodal_eqn(x, y, z) = let(a = range_deg)
+// Trig function argument range is [-2*pi, 2*pi] = 4*pi, which we have to specify in degrees:
+function gyroid_nodal_eqn(x, y, z, half_range_deg=2*180) = let(a = half_range_deg)
     cos(a*x) * sin(a*y) +
     cos(a*y) * sin(a*z) +
     cos(a*z) * sin(a*x);
@@ -70,7 +71,7 @@ function is_positive_x(x, y, z) =
         ? true
         : false;
 
-module gyroid_unit_cell(x_positions, y_positions, z_positions, scale=1, C=0.0) {
+module create_gyroid_unit_cell(x_positions, y_positions, z_positions, scale=1, C=0.0) {
     for (z = z_positions) {
         for (y = y_positions) {
             for (x = x_positions) {
@@ -84,14 +85,14 @@ module gyroid_unit_cell(x_positions, y_positions, z_positions, scale=1, C=0.0) {
     }
 }
 
-// gyroid_unit_cell(scale=0.5);
-color("Green") gyroid_unit_cell(scale);
-color("red") translate([unit_cell_size[0], 0, 0]) gyroid_unit_cell(scale);
-color("blue") translate([0, unit_cell_size[1], 0]) gyroid_unit_cell(scale);
-color("HotPink") translate([unit_cell_size[0], unit_cell_size[1], 0]) gyroid_unit_cell(scale);
+// create_gyroid_unit_cell(scale=0.5);
+color("Green") create_gyroid_unit_cell(x_positions, y_positions, z_positions, scale);
+color("red") translate([unit_cell_size[0], 0, 0]) create_gyroid_unit_cell(x_positions, y_positions, z_positions, scale);
+color("blue") translate([0, unit_cell_size[1], 0]) create_gyroid_unit_cell(x_positions, y_positions, z_positions, scale);
+color("HotPink") translate([unit_cell_size[0], unit_cell_size[1], 0]) create_gyroid_unit_cell(x_positions, y_positions, z_positions, scale);
 translate([0, 0, unit_cell_size[2]]) {
-    color("LightGreen") gyroid_unit_cell(scale);
-    color("IndianRed") translate([unit_cell_size[0], 0, 0]) gyroid_unit_cell(scale);
-    color("dodgerblue") translate([0, unit_cell_size[1], 0]) gyroid_unit_cell(scale);
-    color("pink") translate([unit_cell_size[0], unit_cell_size[1], 0]) gyroid_unit_cell(scale);
+    color("LightGreen") create_gyroid_unit_cell(x_positions, y_positions, z_positions, scale);
+    color("IndianRed") translate([unit_cell_size[0], 0, 0]) create_gyroid_unit_cell(x_positions, y_positions, z_positions, scale);
+    color("dodgerblue") translate([0, unit_cell_size[1], 0]) create_gyroid_unit_cell(x_positions, y_positions, z_positions, scale);
+    color("pink") translate([unit_cell_size[0], unit_cell_size[1], 0]) create_gyroid_unit_cell(x_positions, y_positions, z_positions, scale);
 }

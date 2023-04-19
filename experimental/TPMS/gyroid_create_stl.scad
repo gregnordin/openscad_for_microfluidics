@@ -21,4 +21,4 @@ echo("x_positions:", x_positions);
 echo("y_positions:", y_positions);
 echo("z_positions:", z_positions);
 
-gyroid_unit_cell(x_positions, y_positions, z_positions, scale=scale, C=C);
+create_gyroid_unit_cell(x_positions, y_positions, z_positions, scale=scale, C=C);
