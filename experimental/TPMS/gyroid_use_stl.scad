@@ -1,19 +1,22 @@
 unit_cell_size = [1, 1, 1];
+scale = [1, 1, 1];
 
-module create_gyroid_unit_cell_from_stl(file) {
+module create_gyroid_unit_cell_from_stl(file, scale=[1,1,1]) {
     import(file);
 }
 
-num_x = 4;
+num_x = 5;
 num_y = 4;
 num_z = 3;
-// file = "n10_C0.stl";
-file = "n20_C0.stl";
+file = "n10_C0.stl";
+// file = "n20_C0.stl";
 
 for(i=[0:num_x-1]){
     for(j=[0:num_y-1]){
         for(k=[0:num_z-1]){
-            translate([i*unit_cell_size[0], j*unit_cell_size[1], k*unit_cell_size[2]]) create_gyroid_unit_cell_from_stl(file);
+            translate([i*unit_cell_size[0], j*unit_cell_size[1], k*unit_cell_size[2]]) 
+                scale(scale) 
+                    create_gyroid_unit_cell_from_stl(file);
         }
     }
 }
