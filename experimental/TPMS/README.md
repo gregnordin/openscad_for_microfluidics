@@ -26,3 +26,9 @@ Explore Triply Periodic Minimal Surface (TPMS) structures as possible 3D printed
 
 ![](assets/TPMS_types.jpg)
 ![](assets/TPMS_equations.png)
+
+# Next
+
+- Try scenarios specific to MR1.1 fabrication.
+- Continue packaging code so it is easy to use as a module.
+
