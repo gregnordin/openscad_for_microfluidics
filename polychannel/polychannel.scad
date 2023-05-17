@@ -305,6 +305,10 @@ function c0(p0) = p0;
 function c1(p0, d0) = p0 + d0 / 3;
 function c2(p1, d1) = p1 - d1 / 3;
 function c3(p1) = p1;
+function add2(v) = [for(p=v) 1]*v;
+function cubicBezier3D_length(p0, p1, d0, d1) = 
+    let(step_size = 0.001, num_steps = 1/step_size) 
+    add2([for(i=[0:num_steps-1]) norm(cubicBezier3D_point_tangent((i+0.5)*step_size, p0, p1, d0, d1))]) * step_size;
 function cubicBezier3D_point(t, p0, p1, d0, d1) = 
     c0(p0) * ((1 - t)^3) +
     c1(p0, d0) * 3 * t * ((1 - t)^2) + 
