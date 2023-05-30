@@ -305,10 +305,6 @@ function c0(p0) = p0;
 function c1(p0, d0) = p0 + d0 / 3;
 function c2(p1, d1) = p1 - d1 / 3;
 function c3(p1) = p1;
-function add2(v) = [for(p=v) 1]*v;
-function cubicBezier3D_length(p0, p1, d0, d1) = 
-    let(step_size = 0.001, num_steps = 1/step_size) 
-    add2([for(i=[0:num_steps-1]) norm(cubicBezier3D_point_tangent((i+0.5)*step_size, p0, p1, d0, d1))]) * step_size;
 function cubicBezier3D_point(t, p0, p1, d0, d1) = 
     c0(p0) * ((1 - t)^3) +
     c1(p0, d0) * 3 * t * ((1 - t)^2) + 
@@ -319,23 +315,26 @@ function cubicBezier3D_point_tangent(t, p0, p1, d0, d1) =
     3 * c1(p0, d0) * (t * (2*t - 2) + (1 - t)^2) +
     3 * c2(p1, d1) * (-1 * t^2 + 2 * t * (1 - t)) +
     3 * c3(p1) * t^2;
-function cubicBezier3D_one_line(shape, size, t, p0, p1, d0, d1, shape_normal_vec) = [
+function cubicBezier3D_one_line(shape, scaled_size, t, p0, p1, d0, d1, shape_normal_vec) = [
     shape, 
-    size, 
+    scaled_size, 
     cubicBezier3D_point(t, p0, p1, d0, d1),
     [
         angle_btwn_vecs(shape_normal_vec, cubicBezier3D_point_tangent(t, p0, p1, d0, d1)),
         unit_vec(cross(shape_normal_vec, cubicBezier3D_point_tangent(t, p0, p1, d0, d1)))
     ]
 ];
-function _cubicBezier3D_list(shape, size, p0, p1, d0, d1, shape_normal_vec, n) = [
-    for (i=[0:1:n]) 
-        let (t=i/n) 
-        cubicBezier3D_one_line(shape, size, t, p0, p1, d0, d1, shape_normal_vec),
+//size edits made here (5/17/23)
+function _cubicBezier3D_list(shape, size_0, size_1, p0, p1, d0, d1, shape_normal_vec, n) = [
+   let (size_dif = size_1 - size_0)
+   for (i=[0:1:n])
+       let (scaled_size = size_0 + ((i/n)*size_dif))
+       let (t=i/n) 
+       cubicBezier3D_one_line(shape, scaled_size, t, p0, p1, d0, d1, shape_normal_vec),
 ];
-function cubicBezier3D_list(shape, size, p0, p1, d0, d1, shape_normal_vec, n) = 
+function cubicBezier3D_list(shape, size_0, size_1, p0, p1, d0, d1, shape_normal_vec, n) = 
     abs_to_rel_positions(
-        _cubicBezier3D_list(shape, size, p0, p1, d0, d1, shape_normal_vec, n)
+        _cubicBezier3D_list(shape, size_0, size_1, p0, p1, d0, d1, shape_normal_vec, n)
     );
 function unit_vec(v) = v / norm(v); 
 function angle_btwn_vecs( v1, v2) = acos(v1 * v2 / (norm(v1) * norm(v2)));
