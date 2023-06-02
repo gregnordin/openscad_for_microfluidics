@@ -5,7 +5,7 @@ echo();
 // User selectable parameters
 num_ea_dim = 20;
 n = [num_ea_dim, num_ea_dim, num_ea_dim];  
-C = 0.0;
+C = 0.6;
 scale = 1.0;
 
 // Don't change anything below here

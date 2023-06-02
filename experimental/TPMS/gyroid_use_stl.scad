@@ -8,18 +8,32 @@ module create_gyroid_unit_cell_from_stl(file, scale=[1,1,1]) {
 num_x = 5;
 num_y = 4;
 num_z = 3;
-file = "n10_C0.stl";
-// file = "n20_C0.stl";
+file = "stl_experiments/n10_C0.stl";
+// file = "stl_experiments/n20_C0.stl";
+colors = ["IndianRed", "LightGreen"];
 
-for(i=[0:num_x-1]){
-    for(j=[0:num_y-1]){
-        for(k=[0:num_z-1]){
-            translate([i*unit_cell_size[0], j*unit_cell_size[1], k*unit_cell_size[2]]) 
-                scale(scale) 
-                    create_gyroid_unit_cell_from_stl(file);
+difference() {
+    for(i=[0:num_x-1]){
+        for(j=[0:num_y-1]){
+            for(k=[0:num_z-1]){
+                color(colors[(i+j+k) % 2])
+                translate([i*unit_cell_size[0], j*unit_cell_size[1], k*unit_cell_size[2]]) 
+                    scale(scale) 
+                        create_gyroid_unit_cell_from_stl(file);
+            //     echo((i+j+k) % 2);
+            //     echo(colors[(i+j+k) % 2]);
+            }
         }
-    }
+    };
+    translate([-1, -1, 2.55 - z_position($t)]) cube([8, 8, 8]);
 }
+
+function z_position(t) = t < 3
+    ? t * 3
+    : 3;
+
+echo($t);
+echo(z_position($t));
 
 
 // color("Green") create_gyroid_unit_cell_from_stl("n10_C0.stl");
