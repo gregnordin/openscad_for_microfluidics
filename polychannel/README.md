@@ -8,7 +8,7 @@ Helper modules to make the following microfluidic structures easier to include i
 
 # Usage
 
-To use the modules in the openscad files below, put the desired file(s) in the same directory as your openscad project and put one or all the following line at the top of your openscad file, depending on which modules you need:
+To use the modules in the openscad files below, put the desired file(s) in the same directory as your openscad project and put one or all the following lines at the top of your openscad file, depending on which modules you need:
 
 	use <polychannel.scad>
 	use <serpentine.scad>
@@ -55,7 +55,7 @@ Each line in a list of shapes/positions has the following format:
 ## Notes on positions
 
 - **A shape is centered on its position.** For example, the position of a 1x1x1 cube is the center of the cube (i.e., not one of its corners). This has important implications when you lay out a polychannel. If your starting shape is a 1x1x1 cube and you pick the origin as its position, realize that the cube spills over to -0.5 in x, y, and z. This may not be what you want when you are connecting the channel to something else. For this reason, it is often convenient to use a flat cube (or sphere), where the thin dimension is the one you want to connect to the face of some other component. Also note that you should always use a flat shape immediately preceding an arc, otherwise the first flat shape of the arc will be buried in the previous shape.
-- The position for each shape is a position **relativew** to the previous shape. For example, if the relative position for a shape is [3, -2, 1] then it is positioned +3 units in x, -2 units in y, and 1 unit in z beyond the position of the previous shape.
+- The position for each shape is a position **relative** to the previous shape. For example, if the relative position for a shape is [3, -2, 1] then it is positioned +3 units in x, -2 units in y, and 1 unit in z beyond the position of the previous shape.
 
 ## Minimal example
 
