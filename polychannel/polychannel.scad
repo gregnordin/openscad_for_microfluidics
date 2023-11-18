@@ -14,6 +14,8 @@
 / Rev. 4.2, 10/12/2, by G. Nordin - Add cube_shape(), sphere_shape()
 / Rev. 4.3, 10/12/2, by G. Nordin - Add arc_xy, arc_xz, arc_yz and associated functions
 / Rev. 4.4, 10/12/2, by G. Nordin - Clean up example code
+/ Rev. 5, 5/30/23, by Marshall Rawlins - Allow bezier curves to change shape
+/ Rev. 5.1, 5/30/23, by Dallin Miner - Add blend shape
 --------------------------------------------------------------------------------------*/
 $fn=50;
 
@@ -63,11 +65,29 @@ module polychannel_absolute_positions(params, clr="lightblue", center=true, show
 module shape3D(shape, size, position, rotation, center=true) {
     a = rotation[0];
     v = rotation[1];
-    if(shape=="cube"){
+    if(shape=="cube" || (!is_string(shape) && shape==0)){
         translate(position) rotate(a=a, v=v) cube(size, center=center);
     }
     else if(shape=="sphr" || shape=="sphere"){
         translate(position) rotate(a=a, v=v)  scale(size) sphere(d=1);
+    }
+        else if(!is_string(shape)){
+        if(shape>1){
+            assert(false, "invalid shape");
+        }
+        else{
+            r = shape/2;
+            translate(position) rotate(a=a, v=v)  scale(size) hull(){
+                translate([-0.5+r,-0.5+r,-0.5+r]) sphere(d=r*2);
+                translate([-0.5+r,-0.5+r,0.5-r]) sphere(d=r*2);
+                translate([-0.5+r,0.5-r,-0.5+r]) sphere(d=r*2);
+                translate([-0.5+r,0.5-r,0.5-r]) sphere(d=r*2);
+                translate([0.5-r,-0.5+r,-0.5+r]) sphere(d=r*2);
+                translate([0.5-r,-0.5+r,0.5-r]) sphere(d=r*2);
+                translate([0.5-r,0.5-r,-0.5+r]) sphere(d=r*2);
+                translate([0.5-r,0.5-r,0.5-r]) sphere(d=r*2);
+            }
+        }
     }
     else {
         assert(false, "invalid shape");
@@ -89,6 +109,9 @@ function cube_shape(size, position, ang=[0, [0,0,1]]) = [
 ];
 function sphere_shape(size, position, ang=[0, [0,0,1]]) = [
     "sphr", size, position, ang
+];
+function blend_shape(blend, size, position, ang=[0, [0,0,1]]) = [
+    blend, size, position, ang
 ];
 
 // Return the final position of the center of the last element for a 
@@ -329,16 +352,20 @@ function cubicBezier3D_one_line(shape, scaled_size, t, p0, p1, d0, d1, shape_nor
     ]
 ];
 //size edits made here (5/17/23)
-function _cubicBezier3D_list(shape, size_0, size_1, p0, p1, d0, d1, shape_normal_vec, n) = [
+function _cubicBezier3D_list(shape_0, size_0, shape_1, size_1, p0, p1, d0, d1, shape_normal_vec, n) = [
+   let (_shape_0 = (shape_0 == "cube") ? 0 : (shape_0 == "sphere" || shape_0 == "sphr") ? 1 :shape_0)
+   let (_shape_1 = (shape_1 == "cube") ? 0 : (shape_1 == "sphere" || shape_1 == "sphr") ? 1 :shape_1)
    let (size_dif = size_1 - size_0)
+   let (shape_dif = _shape_1 - _shape_0)
    for (i=[0:1:n])
        let (scaled_size = size_0 + ((i/n)*size_dif))
+       let (scaled_shape = _shape_0 + ((i/n)*shape_dif))
        let (t=i/n) 
-       cubicBezier3D_one_line(shape, scaled_size, t, p0, p1, d0, d1, shape_normal_vec),
+       cubicBezier3D_one_line(scaled_shape, scaled_size, t, p0, p1, d0, d1, shape_normal_vec),
 ];
-function cubicBezier3D_list(shape, size_0, size_1, p0, p1, d0, d1, shape_normal_vec, n) = 
+function cubicBezier3D_list(shape_0, size_0, shape_1, size_1, p0, p1, d0, d1, shape_normal_vec, n) = 
     abs_to_rel_positions(
-        _cubicBezier3D_list(shape, size_0, size_1, p0, p1, d0, d1, shape_normal_vec, n)
+        _cubicBezier3D_list(shape_0, size_0, shape_1, size_1, p0, p1, d0, d1, shape_normal_vec, n)
     );
 function unit_vec(v) = v / norm(v); 
 function angle_btwn_vecs( v1, v2) = acos(v1 * v2 / (norm(v1) * norm(v2)));
@@ -452,10 +479,12 @@ params_verbose = [
     each arc_xy("cube", [1, eps, 2], radius=1, angle1=-90, delta_angle=90, n=n_segs90),
     ["cube", [1, eps, 1], [0, 5, 0], no_rotation],
     each arc_xy("cube", [1, eps, 1], radius=1, angle1=0, delta_angle=90, n=n_segs90),
-    ["cube", [eps, 1, 1], [-15, 0, 0], no_rotation],
+    [.5, [2, 3, 4], [-5, 0, 0], no_rotation],
+    ["cube", [eps, 1, 1], [-10, 0, 0], no_rotation],
 ];
 function cs(size, position, ang=[0, [0,0,1]]) = cube_shape(size, position, ang);
 function ss(size, position, ang=[0, [0,0,1]]) = sphere_shape(size, position, ang);
+function bs(size, position, ang=[0, [0,0,1]]) = blend_shape(0.5, size, position, ang);
 stay_same_position = [0, 0, 0];
 params_with_helper_functions = [
     ss([eps, 4, 4], [0, 0, 0]),
@@ -480,7 +509,8 @@ params_with_helper_functions = [
     each set_first_position(
         arc_xy("cube", [1, eps, 1], radius=1, angle1=0, delta_angle=90, n=n_segs90),
         pos=[0, 5, 0]),
-    cs([eps, 1, 1], [-15, 0, 0]),
+    bs([2, 3, 4], [-5, 0, 0]),
+    cs([eps, 1, 1], [-10, 0, 0]),
 ];
 
 polychannel(params_verbose, clr="Salmon", show_only_shapes=true);
