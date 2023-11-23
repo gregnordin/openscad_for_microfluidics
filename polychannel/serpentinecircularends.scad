@@ -28,13 +28,12 @@ module channel_circular_arc(radius, chan_size, angle=180, center=true, clr="ligh
 module serpentine_channel_circ(
     n = 4,                    // Number of serpentine segments
     l = 10,                   // Length of serpentine segment
-    cross_section = [1, 0.8], // Size of channel in x,y,z
+    cross_section = [1, 0.8], // Cross sectional size of channel in x,z
     gap = 2,                  // Gap between serpentine segments
     thin_size = 0.01,         // Thickness of rectangular plate used for polychannel channels
     clr = "lightblue"         // Color
 ) {
     size = [cross_section[0], thin_size, cross_section[1]];
-    shapes = [["cube", size], ["cube", size]];
     positions = [
         [0, 0, 0],
         [0, l, 0]
@@ -45,8 +44,13 @@ module serpentine_channel_circ(
 
     for (i = [0: 1: n_serp_segments-1]) {
         x_pos = i * period;
-        x_translation = [x_pos, 0, 0];
-        polychannel(shapes, positions + [x_translation, x_translation], relative_positions=false, clr=clr);
+        translate([x_pos, 0, 0])
+            polychannel(
+                [
+                    ["cube", size, positions[0], no_rot()],
+                    ["cube", size, positions[1], no_rot()],
+                ], 
+                clr=clr);
         if (i != n_serp_segments-1) {
             if (i%2 == 0)
                 translate([radius + i * period, positions[1][1], 0]) 
