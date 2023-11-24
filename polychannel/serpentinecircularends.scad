@@ -5,6 +5,7 @@
 / the serpentine channel grows in x.
 /
 / Rev. 1, 9/28/22, by G. Nordin
+/ Rev. 2, 11/22/23, by G. Nordin - change to use latest version of polychannel
 --------------------------------------------------------------------------------------*/
 use <polychannel.scad>
 

@@ -7,6 +7,7 @@
 / See serpentine_algorithm.jpg to see the method used by this code.
 /
 / Rev. 1, 9/28/22, by G. Nordin
+/ Rev. 2, 11/23/23, by G. Nordin - change to use latest version of polychannel
 --------------------------------------------------------------------------------------*/
 use <polychannel.scad>
 
@@ -41,20 +42,19 @@ module serpentine_channel(
     // echo("n_serp_segments:", n_serp_segments);
     // echo("n_gap_segments:", n_gap_segments);
     // echo("n_positions:", n_positions);
-    shapes = [for (i= [0: 1: n_positions-1])["cube", size]];
-    // echo(shapes);
 
     lx = gap + size[0];
     ly = l - size[1];
     // echo("lx, ly", lx, ly);
-    positions = [for (i= [0: 1: n_positions-1]) [serp_rel_x_pos(i, lx), serp_rel_y_pos(i, ly), 0]];
-    // echo(positions);
 
-    polychannel(shapes, positions, relative_positions=true, clr=clr);
+    params = [
+        for (i=[0: 1: n_positions-1]) ["cube", size, [serp_rel_x_pos(i, lx), serp_rel_y_pos(i, ly), 0], no_rot()]
+    ];
+    polychannel(params, clr=clr);
 }
 
 // Example usage - see serpentine_result.png for output
 serpentine_channel();
 size = [0.5, 2, 20];
-translate([0, 0, -20]) serpentine_channel(n=9, l=25, size=size, clr="Salmon");
+translate([0, 0, -20]) serpentine_channel(n=9, l=25, size=size, gap=1, clr="Salmon");
 echo("");
