@@ -1,10 +1,10 @@
-use <../polychannel.scad>
+// use <../polychannel.scad>
 use <../serpentine.scad>
 use <../serpentinecircularends.scad>
 
 function is_even(x) = true ? x%2 == 0 : false;
 function is_odd(x) = true ? x%2 == 1 : false;
-function serp_chan_end_position() = 2;
+// function serp_chan_end_position() = 2;
 
 default_params = [
 
