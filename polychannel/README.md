@@ -439,7 +439,9 @@ translate([0, -25, 0]) polychannel(params_with_helper_functions, clr="lightgreen
 
 See examples at bottom of `serpentine3D.scad` for usage.
 
-**Also note the functions `serp_start_position()` and `serp_end_position()`. These are utilities to make it easy to get the 3D positions of the start and end channels to aid in connecting to other channels when designing a device. Be sure you use them!**
+**Note the functions `serp_start_position()` and `serp_end_position()`. These are utilities to make it easy to get the 3D positions of the start and end channels to aid in connecting to other channels when designing a device. Be sure you use them!** In the image below, these positions are shown by small red spheres. You can turn on or off their visibility with a flag in the argument list. By default they are turned off.
+
+
 
 ![](serpentine3D.png)
 
