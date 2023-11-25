@@ -1,6 +1,7 @@
 use <serpentine.scad>
 use <serpentinecircularends.scad>
 
+$fn = 100;
 
 default_nx = 5;
 default_l = 15;
@@ -31,13 +32,30 @@ function serp_gap_z(p=default_params) = p[6];
 function serp_is_even(x) = true ? x%2 == 0 : false;
 function serp_is_odd(x) = true ? x%2 == 1 : false;
 
+function serp_start_position(p=default_params) = [0, 0, 0];
+function serp_end_position(p=default_params) = serp_is_odd(serp_nz(p))
+    ?
+    [
+        (serp_gap_x(p) + serp_chan_width(p)) * (serp_nx(p) - 1), 
+        serp_l(p) * (serp_nx(p) % 2), 
+        (serp_nz(p)-1) * (serp_gap_z(p) + serp_chan_height(p))
+    ] 
+    :
+    [0, 0, (serp_nz(p)-1) * (serp_gap_z(p) + serp_chan_height(p))];
+
 
 module _serp_vertical_connector(w, h, gap_z) {
     l = gap_z + 2 * h;
     translate([0, 0, 0.5 * l]) cube([w, w, l], center=true);
 }
 
-module serpentine3D(p=default_params, clr="cornflowerblue", clr_vert="blue") {
+module serpentine3D(
+    p=default_params, 
+    clr="cornflowerblue", 
+    clr_vert="blue",
+    clr_connection_points="red",
+    show_connection_points=false
+) {
     for (j=[1:serp_nz(p)]) {
         translate([0, 0, (j-1)*(serp_gap_z(p) + serp_chan_height(p))])
             serpentine_channel_circ(
@@ -52,7 +70,8 @@ module serpentine3D(p=default_params, clr="cornflowerblue", clr_vert="blue") {
                 _position_odd = [
                     (serp_gap_x(p) + serp_chan_width(p)) * (serp_nx(p) - 1), 
                     serp_l(p) * (serp_nx(p) % 2), 
-                    (j-1) * (serp_gap_z(p) + serp_chan_height(p)) - 0.5*serp_chan_height(p)];
+                    (j-1) * (serp_gap_z(p) + serp_chan_height(p)) - 0.5*serp_chan_height(p)
+                ];
                 color(clr_vert) 
                     translate(_position_odd) 
                         _serp_vertical_connector(serp_chan_width(p), serp_chan_height(p), serp_gap_z(p));
@@ -65,6 +84,11 @@ module serpentine3D(p=default_params, clr="cornflowerblue", clr_vert="blue") {
             }
         }
     }
+    if (show_connection_points) {
+        _r = 0.25 * serp_chan_height(p);
+        color(clr_connection_points) translate(serp_start_position(p)) sphere(r=_r);
+        color(clr_connection_points) translate(serp_end_position(p)) sphere(r=_r);
+    }
 }
 
-serpentine3D();
+serpentine3D(show_connection_points=true);
