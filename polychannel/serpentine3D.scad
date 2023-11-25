@@ -66,22 +66,17 @@ module serpentine3D(
                 clr=clr
             );
         if (j != serp_nz(p)) {
-            if (serp_is_odd(j)){
-                _position_odd = [
+            _position = serp_is_odd(j) ?
+                [
                     (serp_gap_x(p) + serp_chan_width(p)) * (serp_nx(p) - 1), 
                     serp_l(p) * (serp_nx(p) % 2), 
                     (j-1) * (serp_gap_z(p) + serp_chan_height(p)) - 0.5*serp_chan_height(p)
-                ];
-                color(clr_vert) 
-                    translate(_position_odd) 
+                ]
+            :
+                [0, 0, (j-1) * (serp_gap_z(p) + serp_chan_height(p)) - 0.5*serp_chan_height(p)];
+            color(clr_vert) 
+                    translate(_position) 
                         _serp_vertical_connector(serp_chan_width(p), serp_chan_height(p), serp_gap_z(p));
-            }
-            else {
-                _position_even = [0, 0, (j-1) * (serp_gap_z(p) + serp_chan_height(p)) - 0.5*serp_chan_height(p)];
-                color(clr_vert) 
-                    translate(_position_even) 
-                        _serp_vertical_connector(serp_chan_width(p), serp_chan_height(p), serp_gap_z(p));
-            }
         }
     }
     if (show_connection_points) {
