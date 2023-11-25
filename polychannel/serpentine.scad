@@ -50,7 +50,7 @@ module serpentine_channel(
     params = [
         for (i=[0: 1: n_positions-1]) ["cube", size, [serp_rel_x_pos(i, lx), serp_rel_y_pos(i, ly), 0], no_rot()]
     ];
-    polychannel(params, clr=clr);
+    translate([0, 0.5*size[1], 0]) polychannel(params, clr=clr);
 }
 
 // Example usage - see serpentine_result.png for output
