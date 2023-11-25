@@ -1,8 +1,19 @@
+/*--------------------------------------------------------------------------------------
+/ 3D serpentine channel library for single layer or multi-layer
+/ serpentine channels.
+/
+/ For each serpentine channel layer the long channel axis is y. As more long channel 
+/ segments are added, the serpentine channel grows in x. Multi-layer serpentine
+/ channels are stacked in z.
+/
+/ Rev. 1, 11/24/23, by G. Nordin
+--------------------------------------------------------------------------------------*/
 use <serpentine.scad>
 use <serpentinecircularends.scad>
 
 $fn = 100;
 
+// Default parameters
 default_nx = 5;
 default_l = 15;
 default_gap_x = 1;
@@ -21,6 +32,7 @@ default_params = [
     default_gap_z
 ];
 
+// Functions to extract individual parameters
 function serp_nx(p=default_params) = p[0];
 function serp_l(p=default_params) = p[1];
 function serp_gap_x(p=default_params) = p[2];
@@ -29,9 +41,7 @@ function serp_chan_height(p=default_params) = p[4];
 function serp_nz(p=default_params) = p[5];
 function serp_gap_z(p=default_params) = p[6];
 
-function serp_is_even(x) = true ? x%2 == 0 : false;
-function serp_is_odd(x) = true ? x%2 == 1 : false;
-
+// Serpentine channel start and end positions
 function serp_start_position(p=default_params) = [0, 0, 0];
 function serp_end_position(p=default_params) = serp_is_odd(serp_nz(p))
     ?
@@ -43,12 +53,15 @@ function serp_end_position(p=default_params) = serp_is_odd(serp_nz(p))
     :
     [0, 0, (serp_nz(p)-1) * (serp_gap_z(p) + serp_chan_height(p))];
 
-
+// Utilities
+function serp_is_even(x) = true ? x%2 == 0 : false;
+function serp_is_odd(x) = true ? x%2 == 1 : false;
 module _serp_vertical_connector(w, h, gap_z) {
     l = gap_z + 2 * h;
     translate([0, 0, 0.5 * l]) cube([w, w, l], center=true);
 }
 
+// Main module
 module serpentine3D(
     p=default_params,
     circular_ends=true,
@@ -98,6 +111,25 @@ module serpentine3D(
     }
 }
 
-serpentine3D(show_connection_points=true);
+// Example code
 
-translate([-15, 0, 0]) serpentine3D(circular_ends=false, clr="lightblue", show_connection_points=true);
+// 3D serpentines using default parameters
+serpentine3D(show_connection_points=true);
+translate([-15, 0, 0]) 
+    serpentine3D(circular_ends=false, clr="lightblue", show_connection_points=true);
+
+// Single layer serpentines
+params_single_layer = [
+    default_nx,
+    default_l,
+    default_gap_x,
+    default_chan_width,
+    default_chan_height,
+    1,
+    default_gap_z
+];
+translate([0, -20, 0]) {
+    serpentine3D(p=params_single_layer, show_connection_points=true);
+    translate([-15, 0, 0]) 
+        serpentine3D(p=params_single_layer, circular_ends=false, clr="lightblue", show_connection_points=true);
+};
