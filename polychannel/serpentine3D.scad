@@ -50,21 +50,33 @@ module _serp_vertical_connector(w, h, gap_z) {
 }
 
 module serpentine3D(
-    p=default_params, 
+    p=default_params,
+    circular_ends=true,
     clr="cornflowerblue", 
     clr_vert="blue",
     clr_connection_points="red",
     show_connection_points=false
 ) {
     for (j=[1:serp_nz(p)]) {
-        translate([0, 0, (j-1)*(serp_gap_z(p) + serp_chan_height(p))])
-            serpentine_channel_circ(
-                n=serp_nx(p), 
-                l=serp_l(p), 
-                gap=serp_gap_x(p), 
-                cross_section=[serp_chan_width(p), serp_chan_height(p)], 
-                clr=clr
-            );
+        _layer_vertical_position = [0, 0, (j-1)*(serp_gap_z(p) + serp_chan_height(p))];
+        if (circular_ends)
+            translate(_layer_vertical_position)
+                serpentine_channel_circ(
+                    n=serp_nx(p), 
+                    l=serp_l(p), 
+                    gap=serp_gap_x(p), 
+                    cross_section=[serp_chan_width(p), serp_chan_height(p)], 
+                    clr=clr
+                );
+        else
+            translate(_layer_vertical_position)
+                serpentine_channel(
+                    n=serp_nx(p), 
+                    l=serp_l(p), 
+                    gap=serp_gap_x(p), 
+                    size=[serp_chan_width(p), serp_chan_width(p), serp_chan_height(p)], 
+                    clr=clr
+                );
         if (j != serp_nz(p)) {
             _position = serp_is_odd(j) ?
                 [
@@ -87,3 +99,5 @@ module serpentine3D(
 }
 
 serpentine3D(show_connection_points=true);
+
+translate([-15, 0, 0]) serpentine3D(circular_ends=false, clr="lightblue", show_connection_points=true);
