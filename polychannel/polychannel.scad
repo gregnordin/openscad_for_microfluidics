@@ -71,7 +71,7 @@ module shape3D(shape, size, position, rotation, center=true) {
     else if(shape=="sphr" || shape=="sphere"){
         translate(position) rotate(a=a, v=v)  scale(size) sphere(d=1);
     }
-        else if(!is_string(shape)){
+    else if(!is_string(shape)){
         if(shape>1){
             assert(false, "invalid shape");
         }
