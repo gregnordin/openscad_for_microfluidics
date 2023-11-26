@@ -70,4 +70,21 @@ params_3 = [
     cs(chan_unit_size, ewm(channel_segment_spec(z=1.3), delta_p)),
     cs(chan_unit_size, ewm(channel_segment_spec(x=1), delta_p)),
 ];
-color("cornflowerblue") polychannel(params_3);
+// color("cornflowerblue") polychannel(params_3);
+
+module connect_points(pA, pB, segment_specs, clr="cornflowerblue") {
+    echo(sumlist(segment_specs));
+    echo(check_relative_intermediate_points(segment_specs));
+    delta_p = pB - pA;
+    params = [
+        for (i=[0:1:len(segment_specs)]) i==0 ?
+            cs(chan_unit_size, pA)
+            :
+            cs(chan_unit_size, ewm(segment_specs[i-1], delta_p))
+            
+    ];
+    echo(params);
+    color(clr) polychannel(params);
+}
+
+connect_points(pA, pB, relative_intermediate_points);
