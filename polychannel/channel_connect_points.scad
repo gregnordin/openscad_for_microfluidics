@@ -35,7 +35,7 @@ function _sumlist(list, c = 0) =
         :
         list[c];
 // A valid set of relative intermediate points must sum to [1, 1, 1]
-function check_relative_intermediate_points(pnts, tolerance=small_number) =
+function check_relative_connection_segments(pnts, tolerance=small_number) =
     let (diff = _sumlist(pnts) - [1, 1, 1])
     let (xdiff = abs(diff[0]))
     let (ydiff = abs(diff[1]))
@@ -53,15 +53,15 @@ module connect_points(
     pB,                         // Ending point
     segment_specs,              // Specification of fractional distances in x,y,z for each segment to connect pA to pB
     chan_unit_size,             // Array of form [size_x, size_y, size_z] for rectangular channels
-    snap_to_nearest_pixel=true, // Make sure x,y are in integer units of pixels
+    snap_to_nearest_pixel=true, // Make sure x,y are in integer units of pixels and z in integer units of layers
     px=default_px,              // Default pixel size in mm
     layer=default_layer,        // Default layer size in mm
     clr="cornflowerblue"        // Default channel color
 ) {
     // echo(_sumlist(segment_specs));
-    // echo(check_relative_intermediate_points(segment_specs));
+    // echo(check_relative_connection_segments(segment_specs));
     assert(
-        check_relative_intermediate_points(segment_specs), 
+        check_relative_connection_segments(segment_specs), 
         "Relative channel segments must sum to [1,1,1]"
     );
     delta_p = pB - pA;
@@ -77,47 +77,53 @@ module connect_points(
                 :
                 cs(chan_unit_size, _mult(segment_specs[i-1], delta_p))
     ];
-    // echo(params);
+    echo(params);
     color(clr) polychannel(params);
 }
 
 // Example
 
-chan_width = 1.0;
-chan_height = 0.5;
-chan_unit_size = [chan_width, chan_width, chan_height];
-temp_px = 0.2;
+temp_px = 1;
 temp_layer = 1;
+temp_chan_width = 2 * temp_px;
+temp_chan_height = 2 * temp_layer;
+chan_unit_size = [temp_chan_width, temp_chan_width, temp_chan_height];
 
-pA = [3, 2, 1];
-pB = [10, 6, 4];
+pA = [0, 0, 0];
+pB = [20*temp_px, 10*temp_px, 10*temp_px];
 
-_r = 0.5;
+_r = 0.65*chan_unit_size[0];
 color("red") translate(pA) sphere(r=_r);
 color("green") translate(pB) sphere(r=_r);
 
 relative_channel_segments = [
-    relative_connection_segment(relative_x=0.33),
-    relative_connection_segment(relative_z=-0.25),
-    relative_connection_segment(relative_y=0.43),
-    relative_connection_segment(relative_z=1.55),
-    relative_connection_segment(relative_y=0.57),
-    relative_connection_segment(relative_x=0.33),
-    relative_connection_segment(relative_z=-1.51),
-    relative_connection_segment(relative_x=0.34),
-    relative_connection_segment(relative_z=1.21),
+    relative_connection_segment(relative_x=0.26),
+    relative_connection_segment(relative_z=0.57),
+    relative_connection_segment(relative_x=0.74),
+
+    relative_connection_segment(relative_y=1),
+    relative_connection_segment(relative_z=0.43),
+    // relative_connection_segment(relative_x=0.33),
+    // relative_connection_segment(relative_z=-0.25),
+    // relative_connection_segment(relative_y=0.43),
+    // relative_connection_segment(relative_z=1.55),
+    // relative_connection_segment(relative_y=0.57),
+    // relative_connection_segment(relative_x=0.33),
+    // relative_connection_segment(relative_z=-1.51),
+    // relative_connection_segment(relative_x=0.34),
+    // relative_connection_segment(relative_z=1.21),
 ];
-color("Gold") translate([7.5, 0, -0.9]) cube([2, 7, 0.1]);
 
 // Print info to double check that everything is working correctly
-echo();
-echo(_sumlist(relative_channel_segments));
-echo(check_relative_intermediate_points(relative_channel_segments));
-echo(check_relative_intermediate_points(relative_channel_segments));
-echo();
+// Quick test with fixed values
 echo();
 echo(nearest_px(1.27, 0.2));
 echo(position_nearest_px_layer([0.83, 1.97, 2.63], px=0.2, layer=0.5));
+echo();
+echo();
+// Quick check using example values
+echo(_sumlist(relative_channel_segments));
+echo(check_relative_connection_segments(relative_channel_segments));
 echo();
 temp_delta_p = pB - pA;
 echo(temp_delta_p);
@@ -129,9 +135,14 @@ for (segment=relative_channel_segments) {
     );
 }
 
-connect_points(pA, pB, relative_channel_segments, chan_unit_size);
+// Channel with snapping to pixels/layers
+echo();
+connect_points(pA, pB, relative_channel_segments, chan_unit_size, px=temp_px, layer=temp_layer);
 
-translate([0, -5, 0]) {
+// Channel without snapping to pixels/layers
+echo();
+translate([0, -chan_unit_size[1]-0.1, 0])
+mirror([0, -1, 0]) {
     color("red") translate(pA) sphere(r=_r);
     color("green") translate(pB) sphere(r=_r);
     connect_points(
@@ -140,6 +151,41 @@ translate([0, -5, 0]) {
         relative_channel_segments,
         chan_unit_size,
         snap_to_nearest_pixel=false,
+        px=temp_px, 
+        layer=temp_layer,
         clr="IndianRed"
     );
 }
+echo();
+
+relative_channel_segments2 = [
+    relative_connection_segment(relative_x=0.33),
+    relative_connection_segment(relative_z=-0.25),
+    relative_connection_segment(relative_y=0.43),
+    relative_connection_segment(relative_z=1.55),
+    relative_connection_segment(relative_y=0.57),
+    relative_connection_segment(relative_x=0.33),
+    relative_connection_segment(relative_z=-1.51),
+    relative_connection_segment(relative_x=0.54),
+    relative_connection_segment(relative_y=-0.33),
+    relative_connection_segment(relative_z=1.21),
+    relative_connection_segment(relative_x=-0.2),
+    relative_connection_segment(relative_y=0.33),
+];
+pA2 = [5, 20, 3];
+pB2 = [23, 35, 15];
+color("red") translate(pA2) sphere(r=_r);
+color("green") translate(pB2) sphere(r=_r);
+connect_points(
+    pA2, 
+    pB2, 
+    relative_channel_segments2, 
+    chan_unit_size, 
+    snap_to_nearest_pixel=false,
+    px=temp_px, 
+    layer=temp_layer,
+    clr="RosyBrown"
+);
+echo(_sumlist(relative_channel_segments2));
+echo(check_relative_connection_segments(relative_channel_segments2));
+echo();
