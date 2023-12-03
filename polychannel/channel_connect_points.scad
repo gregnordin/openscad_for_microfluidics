@@ -41,6 +41,12 @@ function check_relative_connection_segments(pnts, tolerance=small_number) =
     let (ydiff = abs(diff[1]))
     let (zdiff = abs(diff[2]))
     (xdiff < tolerance) && (ydiff < tolerance) && (zdiff < tolerance);
+// Positions snapped to nearest pixel and layer
+function _snapped_relative_points(positions, px=default_px, layer=default_layer) = 
+    [
+        for (position in positions) 
+            position_nearest_px_layer(position, px, layer)
+    ];
 
 // Use list of `relative_connection_segment`s to create channel
 // connecting points pA and pB. The channel size is determined by the
@@ -53,7 +59,7 @@ module connect_points(
     pB,                         // Ending point
     segment_specs,              // Specification of fractional distances in x,y,z for each segment to connect pA to pB
     chan_unit_size,             // Array of form [size_x, size_y, size_z] for rectangular channels
-    snap_to_nearest_pixel=true, // Make sure x,y are in integer units of pixels and z in integer units of layers
+    snap_to_nearest_pixel=false, // Make sure x,y are in integer units of pixels and z in integer units of layers
     px=default_px,              // Default pixel size in mm
     layer=default_layer,        // Default layer size in mm
     clr="cornflowerblue"        // Default channel color
@@ -150,7 +156,7 @@ mirror([0, -1, 0]) {
         pB, 
         relative_channel_segments,
         chan_unit_size,
-        snap_to_nearest_pixel=false,
+        snap_to_nearest_pixel=true,
         px=temp_px, 
         layer=temp_layer,
         clr="IndianRed"
@@ -181,7 +187,7 @@ connect_points(
     pB2, 
     relative_channel_segments2, 
     chan_unit_size, 
-    snap_to_nearest_pixel=false,
+    // snap_to_nearest_pixel=false,
     px=temp_px, 
     layer=temp_layer,
     clr="RosyBrown"
