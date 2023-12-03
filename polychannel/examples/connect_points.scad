@@ -20,7 +20,8 @@ serpentine3D(serp_params);
 echo("Serpentine start position:", serp_start_position(serp_params));
 echo("Serpentine end position:", serp_end_position(serp_params));
 
-chan_unit_size = [chan_width, chan_width, chan_height];
+chan_increase = 1;
+chan_unit_size = [chan_increase*chan_width, chan_increase*chan_width, chan_increase*chan_height];
 
 // Connect inlet point p0 to serpentine start position
 p0 = [-10, -10, 0];
@@ -43,7 +44,7 @@ connect_points(
 function rcs(x=0,y=0,z=0) = relative_connection_segment(x,y,z);
 
 // Connect outlet point p1 to serpentine end position
-p1 = [-10, -13, 0];
+p1 = [-10, -15, 0];
 out_chan_segments = [
     rcs(y=-0.15),
     rcs(z=0.5),
