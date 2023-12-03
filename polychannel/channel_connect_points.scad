@@ -1,3 +1,7 @@
+// Easily connect two points with a channel that can be conveniently routed
+// in x,y,z by specifying fractions of the x,y,z separation between the
+// two points.
+
 use <polychannel.scad>
 
 $fn=30;
@@ -14,7 +18,7 @@ function relative_connection_segment(
     relative_y=0.0, 
     relative_z=0.0) = [relative_x, relative_y, relative_z];
 
-// Snap position to nearest (pixel, pixel, layer) position
+// Snap position to nearest (pixel, pixel, layer) position -> This has problems; don't use.
 function nearest_px(value, px=default_px) = round(value / px) * px;
 function nearest_layer(value, layer=default_layer) = nearest_px(value, layer);
 function position_nearest_px_layer(position, px=default_px, layer=default_layer) = [
@@ -41,12 +45,6 @@ function check_relative_connection_segments(pnts, tolerance=small_number) =
     let (ydiff = abs(diff[1]))
     let (zdiff = abs(diff[2]))
     (xdiff < tolerance) && (ydiff < tolerance) && (zdiff < tolerance);
-// Positions snapped to nearest pixel and layer
-function _snapped_relative_points(positions, px=default_px, layer=default_layer) = 
-    [
-        for (position in positions) 
-            position_nearest_px_layer(position, px, layer)
-    ];
 
 // Use list of `relative_connection_segment`s to create channel
 // connecting points pA and pB. The channel size is determined by the
@@ -59,7 +57,7 @@ module connect_points(
     pB,                         // Ending point
     segment_specs,              // Specification of fractional distances in x,y,z for each segment to connect pA to pB
     chan_unit_size,             // Array of form [size_x, size_y, size_z] for rectangular channels
-    snap_to_nearest_pixel=false, // Make sure x,y are in integer units of pixels and z in integer units of layers
+    snap_to_nearest_pixel=false, // This has problems -> don't use (keep value false)
     px=default_px,              // Default pixel size in mm
     layer=default_layer,        // Default layer size in mm
     clr="cornflowerblue"        // Default channel color
