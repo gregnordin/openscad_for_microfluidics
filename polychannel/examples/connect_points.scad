@@ -64,3 +64,7 @@ connect_points(
     clr="lightgreen"
 );
 
+_r = 0.6*chan_unit_size[0];
+color("red") translate(p0) sphere(r=_r);
+color("green") translate(p1) sphere(r=_r);
+
