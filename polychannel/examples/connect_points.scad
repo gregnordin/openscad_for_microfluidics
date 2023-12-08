@@ -20,7 +20,7 @@ serpentine3D(serp_params);
 echo("Serpentine start position:", serp_start_position(serp_params));
 echo("Serpentine end position:", serp_end_position(serp_params));
 
-chan_increase = 1;
+chan_increase = 3;
 chan_unit_size = [chan_increase*chan_width, chan_increase*chan_width, chan_increase*chan_height];
 
 // Connect inlet point p0 to serpentine start position
@@ -53,7 +53,7 @@ out_chan_segments = [
     rcs(z=0.5),
     rcs(x=0.33),
 ];
-connect_points( serp_end_position(serp_params), p1, out_chan_segments, chan_unit_size, clr="lightgreen");
+ connect_points( serp_end_position(serp_params), p1, out_chan_segments, chan_unit_size, clr="lightgreen");
 
 _r = 0.6*chan_unit_size[0];
 color("red") translate(p0) sphere(r=_r);
