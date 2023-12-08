@@ -3,7 +3,7 @@ default_px = 0.0076;
 default_channel_width = 12*default_px;
 default_channel_height = 10*default_layer;
 
-module xchan(l, w=default_channel_width, h=default_channel_height, px=default_px, clr="red") {
+module xchan(l, w=default_channel_width, h=default_channel_height, px=default_px, clr="lightblue") {
     centered_y_position = [0, -floor(w / px / 2) * px, 0];
     echo(w/px, centered_y_position[1]/px);
     color(clr)
@@ -14,7 +14,7 @@ module xchan(l, w=default_channel_width, h=default_channel_height, px=default_px
         translate(centered_y_position) cube([l, w, h]);
 }
 
-module ychan(l, w=default_channel_width, h=default_channel_height, px=default_px, clr="green") {
+module ychan(l, w=default_channel_width, h=default_channel_height, px=default_px, clr="lightblue") {
     centered_x_position = [-floor(w / px / 2) * px, 0, 0];
     echo(w/px, centered_x_position[0]/px);
     color(clr)
@@ -25,7 +25,7 @@ module ychan(l, w=default_channel_width, h=default_channel_height, px=default_px
         translate(centered_x_position) cube([w, l, h]);
 }
 
-module zchan(l, xy=default_channel_width, px=default_px, clr="blue") {
+module zchan(l, xy=default_channel_width, px=default_px, clr="lightblue") {
     centered_xy_position = [-floor(xy / px / 2) * px, -floor(xy / px / 2) * px, 0];
     // echo(xy/px, centered_xy_position[0]/px);
     // echo(xy/px, centered_xy_position[1]/px);
