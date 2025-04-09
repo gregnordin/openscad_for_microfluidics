@@ -4,7 +4,7 @@ $fn=30;
 
 eps = 0.01;
 
-n = 20;
+n = 40;
 shape_normal_vec = [0, 1, 0];
 
 shape_0 = "cube";
